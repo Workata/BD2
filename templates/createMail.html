@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/createMail.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="loginFormContainer" class="center">
+
+    <form action="/root/createMail" method="post" id="createAccountForm">
+        {% csrf_token %}
+
+        <label for="mailInput">Mail:</label>
+        <input type="email" id="mailInput" class="input" name="mail" placeholder="E-mail"><br>
+
+        <input type="submit" id="loginButton" value="Create">
+    </form>
+
+</div>
+
+{% endblock %}

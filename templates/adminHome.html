@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/adminHome.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<a href="/root/createAccount">Create account</a> <br>
+<a href="/root/createMail">Create e-mail</a> <br>
+<a href="/root/chooseUser">Create user type</a> <br>
+
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/createAccount.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="accountFormContainer" class="center">
+
+    <form action="/root/createAccount" method="post" id="createAccountForm">
+        {% csrf_token %}
+
+        <label for="loginInput">Login:</label>
+        <input type="text" id="loginInput" class="input" name="login" placeholder="Login"><br>
+
+        <label for="passwordInput">Password:</label>
+        <input type="password" id="passwordInput" class="input" name="password" placeholder="Password"><br>
+
+        <label for="userTypeInput">User type:</label>
+        <input type="text" list="userTypes" id="userTypeInput" class="input" name="userType"><br>
+
+        <input type="submit" id="loginButton" value="Create">
+    </form>
+
+</div>
+
+<datalist id="userTypes">
+    <option value="STUDENT">
+    <option value="TEACHER">
+    <option value="ADMIN">
+</datalist>
+
+{% endblock %}

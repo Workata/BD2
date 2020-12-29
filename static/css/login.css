@@ -1,0 +1,65 @@
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+.input
+{
+ /* background-color: white;*/
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  text-align: center;
+  height: 30px;
+  width: 200px;
+  background-image: url("/static/img/footer_lodyas.png");
+  color: white;
+  margin-top: 15px;
+}
+
+#loginFormContainer
+{
+    width: 300px;
+    height: 200px;
+    background-image: url("/static/img/grey_wash_wall.png");     /*vintage-wallpaper.png*/
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 20px;
+}
+
+
+#loginButton
+{
+    margin-left: 80px;
+    margin-top: 30px;
+    width: 120px;
+    height: 45px;
+    cursor: pointer;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    color: black;
+    background-color: white;
+}
+
+#loginButton:hover  /* When I write it like this: ".submitButton :hover" it doesnt work (but why?)*/
+{
+    color:white !important;
+    background-color: black !important;
+}
+
+#passwordInput
+{
+    margin-left: 9px;
+}
+
+#loginInput
+{
+    margin-left: 37px;
+}

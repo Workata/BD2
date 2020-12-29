@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="loginFormContainer" class="center">
+
+    <form action="login" method="post" id="loginForm">
+        {% csrf_token %}
+        <label for="loginInput">Login:</label>
+        <input type="text" id="loginInput" class="input" name="login" placeholder="Login"><br>
+        <label for="passwordInput">Password:</label>
+        <input type="password" id="passwordInput" class="input" name="password" placeholder="Password"><br>
+
+        <input type="submit" id="loginButton" value="Log in">
+    </form>
+
+</div>
+
+
+{% endblock %}

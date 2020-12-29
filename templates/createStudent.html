@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/createStudent.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="studentFormContainer" class="center">
+
+    <form action="/student/createStudent" method="post" id="createStudentForm">
+        {% csrf_token %}
+
+        <label for="idInput">Student id:</label>
+        <input type="number" id="idInput" class="input" name="id" placeholder=""><br>
+
+        <label for="nameInput">Name:</label>
+        <input type="text" id="nameInput" class="input" name="name" placeholder=""><br>
+
+        <label for="lastNameInput">Last name:</label>
+        <input type="text" id="lastNameInput" class="input" name="lastName" placeholder=""><br>
+
+        <label for="numberInput">Phone number:</label>
+        <input type="text" id="numberInput" class="input" name="number" placeholder=""><br>
+
+        <label for="ingDateInput">Inauguration date:</label>
+        <input type="date" id="ingDateInput" class="input" name="ingDate" placeholder=""><br>
+
+        <label for="departmentInput">Department name:</label>
+        <input type="text" id="departmentInput" class="input" name="department" placeholder=""><br>
+
+        <label for="fieldInput">Field of study:</label>
+        <input type="text" id="fieldInput" class="input" name="field" placeholder=""><br>
+
+        <label for="userIdInput">User login:</label>
+        <input type="text" id="userIdInput" class="input" value="{{user.login}}" name="userId" readonly><br>
+
+        <label for="mailInput">E-mail:</label>
+        <input type="email" id="mailInput" class="input" name="mail" placeholder=""><br>
+
+        <input type="submit" id="loginButton" value="Create">
+    </form>
+
+</div>
+
+
+{% endblock %}
