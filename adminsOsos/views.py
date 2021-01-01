@@ -55,11 +55,11 @@ def chooseUser(request):
         user = User.objects.filter(login = userLogin).first()
 
         if user.user_type == "ADMIN":
-            return redirect('/root/createAdmin')
+            return redirect('/root/createAdmin?userLogin='+userLogin)
         if user.user_type == "STUDENT":
             return redirect('/root/createStudent?userLogin='+userLogin)
         if user.user_type == "TEACHER":
-            return redirect('/root/createTeacher')
+            return redirect('/root/createTeacher?userLogin='+userLogin)
 
         # ! user not found messages.info(request,'Mail created successfully')
         return render(request, 'chooseUser.html')
@@ -70,7 +70,23 @@ def createStudent(request):   #  , user
     if request.method == 'GET':
         userLogin = request.GET['userLogin']
         user = User.objects.filter(login = userLogin).first()
-        #return render(request, 'createStudent.html')
+        return render(request, 'createStudent.html', {'user': user})
+    else:                                           # request.method == 'POST'
+        # receive data from form
+        studentId        = request.POST['id']      # 248845
+        name             = request.POST['name']
+        lastName         = request.POST['lastName']
+        phoneNumber      = request.POST['number']
+        inaugurationDate = request.POST['ingDate']
+        departmentName   = request.POST['department']
+        fieldOfStudy     = request.POST['field']
+        userLogin        = request.POST['userId']
+        email            = request.POST['mail']
+
+        # TODO check existence of email
+
+
+
         return render(request, 'createStudent.html', {'user': user})
 
 def createTeacher(request):
