@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/manageAccount.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/choose-user-type-icons-set/css/fontello.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/manageUser"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+
+<div id="container" class="center">
+
+    <div id="createAccountButton" class="mainButton">
+        <a href="/root/chooseUntakenAdminAccount" class = "mainButtonA"> 
+            <i class="icon-adult"></i>
+            <div class="buttonBottomText">Create admin</div>  <!-- Create user-->
+        </a>
+    </div>
+
+    <div id="modifyAccountButton" class="mainButton">
+        <a href="/root/chooseUntakenTeacherAccount" class = "mainButtonA"> 
+            <i class="icon-book-open"></i>
+            <div class="buttonBottomText">Create teacher</div> <!-- Modify user-->
+        </a>
+    </div>
+
+    <div id="deleteAccountButton" class="mainButton">
+        <a href="/root/chooseAccountToDelete" class = "mainButtonA"> 
+            <i class="icon-graduation-cap"></i>
+            <div class="buttonBottomText">Create student</div>      <!-- Delete user-->
+        </a>
+    </div>
+
+    <div style="clear:both"></div>
+
+</div>
+{% endblock %}

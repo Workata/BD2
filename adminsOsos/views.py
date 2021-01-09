@@ -118,6 +118,59 @@ def deleteMail(request):
 def manageUser(request):
     return render(request, 'manageUser.html')
 
+def chooseUserTypeToCreate(request):
+    return render(request, 'chooseUserTypeToCreate.html')
+
+def chooseUntakenAdminAccount(request):
+    admins = Admin.objects.all()
+    admins_user_id = []
+    for admin in admins:
+        admins_user_id.append(admin.user_id)
+
+
+    admin_users = User.objects.filter(user_type="ADMIN").exclude(pk__in = admins_user_id).order_by("login")
+    return render(request, 'chooseUntakenAdminAccount.html', {'admin_users': admin_users})
+
+def chooseUntakenTeacherAccount(request):
+    teachers = Teacher.objects.all()
+    teachers_user_id = []
+    for teacher in teachers:
+        teachers_user_id.append(teacher.user_id)
+
+
+    teacher_users = User.objects.filter(user_type="TEACHER").exclude(pk__in = teachers_user_id).order_by("login")
+    return render(request, 'chooseUntakenTeacherAccount.html', {'teacher_users': teacher_users})
+
+
+def createAdmin(request):
+
+    if request.method == 'GET':
+        userLogin = request.GET['userLogin']
+        user = User.objects.filter(login = userLogin).first()
+        return render(request, 'createAdmin.html', {'user': user})
+    else:     # request.method == 'POST'
+        # receive data from form
+        name             = request.POST['name']
+        lastName         = request.POST['lastName']
+        phoneNumber      = request.POST['number']
+        userLogin        = request.POST['userId']
+
+        # TODO data validation
+
+        # * get instances of foreign key attributes 
+        user = User.objects.filter(login = userLogin).first()
+        
+        newAdmin               = Admin()
+        newAdmin.first_name    = name
+        newAdmin.last_name     = lastName
+        newAdmin.phone_number  = '+48 ' + phoneNumber  # TODO change in data validation
+        newAdmin.user          = user
+        newAdmin.save()
+
+        messages.info(request,'Admin created successfully')
+
+        return render(request, 'createAdmin.html', {'user': user})   # ? maybe change page?
+
 def chooseUser(request):
 
     if request.method == 'GET':
@@ -222,34 +275,6 @@ def createTeacher(request):
 
         return render(request, 'createTeacher.html', {'user': user})   # ? maybe change page?
 
-def createAdmin(request):
-
-    if request.method == 'GET':
-        userLogin = request.GET['userLogin']
-        user = User.objects.filter(login = userLogin).first()
-        return render(request, 'createAdmin.html', {'user': user})
-    else:     # request.method == 'POST'
-        # receive data from form
-        name             = request.POST['name']
-        lastName         = request.POST['lastName']
-        phoneNumber      = request.POST['number']
-        userLogin        = request.POST['userId']
-
-        # TODO data validation
-
-        # * get instances of foreign key attributes 
-        user = User.objects.filter(login = userLogin).first()
-        
-        newAdmin               = Admin()
-        newAdmin.first_name    = name
-        newAdmin.last_name     = lastName
-        newAdmin.phone_number  = '+48 ' + phoneNumber  # TODO change in data validation
-        newAdmin.user          = user
-        newAdmin.save()
-
-        messages.info(request,'Admin created successfully')
-
-        return render(request, 'createAdmin.html', {'user': user})   # ? maybe change page?
 
 def createCourse(request):
     if request.method == 'GET':
