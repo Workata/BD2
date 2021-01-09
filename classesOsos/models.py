@@ -13,7 +13,13 @@ class Class(models.Model):
 
     teacher             = models.OneToOneField(Teacher, on_delete = models.SET_DEFAULT, default=0)   # ! OK but insert default teacher with id = 0
     course              = models.ForeignKey('Course', on_delete = models.CASCADE)                    # * OK
-    student             = models.ForeignKey('studentsOsos.Student', on_delete = models.CASCADE)      # * OK
+    # student             = models.ForeignKey('studentsOsos.Student', on_delete = models.CASCADE)      # * OK
+
+# list of students in different classes
+class ClassStudents(models.Model):
+    class_students_id   = models.AutoField(primary_key=True)                             # autoincremented
+    classs              = models.ForeignKey('Class', on_delete = models.CASCADE) 
+    student             = models.ForeignKey('studentsOsos.Student', on_delete = models.CASCADE)
 
 # ! AK2
 class Course(models.Model):

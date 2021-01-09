@@ -1,0 +1,87 @@
+a{
+    text-decoration: none;
+    color: white;
+}
+
+input {
+    margin-top: 10px;
+    /*margin-bottom: 5px;*/
+    display:inline-block;
+    *display: inline;     /* for IE7*/
+    zoom:1;              /* for IE7*/
+    vertical-align:middle;
+    margin-left:20px
+}
+
+label {
+    display:inline-block;
+    margin-top: 10px;
+    *display: inline;     /* for IE7*/
+    zoom:1;              /* for IE7*/
+    float: left;
+    padding-top: 5px;
+    text-align: right;
+    width: 100px;
+}
+
+ .input
+{
+ /* background-color: white;*/
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  text-align: center;
+  height: 30px;
+  background-image: url("/static/img/footer_lodyas.png");
+  color: white;
+ /* margin-top: 15px;*/
+}
+
+.center 
+{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+ }
+
+ #accountFormContainer
+ {
+    padding-top: 15px;
+    width: 350px;
+    height: 260px;
+    border-radius: 15px;
+    background-image: url("/static/img/grey_wash_wall.png");
+ }
+
+ #backButton
+ {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+}
+
+ #loginButton
+{
+    margin-left: 115px;
+    margin-top: 35px;
+    width: 120px;
+    height: 45px;
+    cursor: pointer;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    color: black;
+    background-color: white;
+}
+
+#loginButton:hover  /* When I write it like this: ".submitButton :hover" it doesnt work (but why?)*/
+{
+    color:white !important;
+    background-color: black !important;
+}

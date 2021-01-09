@@ -4,14 +4,70 @@
 {% block head %}
 
 <link rel="stylesheet" href="{% static 'css/adminHome.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/admin-home-icons-set/css/fontello.css' %}" type="text/css" />
+
 
 {% endblock %}
 
 {% block content %}
 
-<a href="/root/createAccount">Create account</a> <br>
-<a href="/root/createMail">Create e-mail</a> <br>
-<a href="/root/chooseUser">Create user type</a> <br>
+<div id="logout">
+    <a href="/"> 
+        Logout 
+    </a>
+</div>
 
+<div id="container" class="center">
+
+    <div id="manageAccountButton" class="mainButton">
+        <a href="/root/manageAccount"> 
+            <i class="icon-user"></i>
+            <div class="buttonBottomText">Manage account</div>  
+        </a>
+    </div>
+
+    <div id="manageMailButton" class="mainButton">
+        <a href="/root/manageMail"> 
+            <i class="icon-mail"></i>
+            <div class="buttonBottomText">Manage mail</div> 
+        </a>
+    </div>
+
+    <div id="manageUserButton" class="mainButton">
+        <a href="/root/manageUser"> 
+            <i class="icon-users"></i>
+            <div class="buttonBottomText">Manage user type</div> 
+        </a>
+    </div>
+
+    <div style="clear:both"></div>
+
+    <div id="manageCourseButton" class="mainButton">
+        <a href="/root/manageCourse"> 
+            <i class="icon-book"></i>
+            <div class="buttonBottomText">Manage course</div> 
+        </a>
+    </div>
+
+    <div id="manageClassButton" class="mainButton">
+        <a href="/root/manageClass"> 
+            <i class="icon-book-open"></i>
+            <div class="buttonBottomText">Manage class</div> 
+        </a>
+    </div>
+
+    <div style="clear:both"></div>
+
+</div>
+
+
+<!--
+    <a href="/root/manageAccount">Manage account</a> <br>   <!-- <a href="/root/createAccount">Create account</a> <br> 
+    <a href="/root/manageMail">Manage e-mail</a> <br>
+    <a href="/root/manageUser">Manage user type</a> <br>
+    <a href="/root/manageCourse">Manage course</a> <br>
+    <a href="/root/manageClass">Manage class</a> <br>
+
+-->
 
 {% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/createCourse.css' %}" type="text/css" />
+<!-- <script type="text/javascript" src="{% static 'js/createAdmin.js' %}"></script> -->
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+
+
+<div id="courseFormContainer" class="center">
+
+    <form action="/root/createCourse" method="post" id="createCourseForm">
+        {% csrf_token %}
+
+        <label for="nameInput">Course name:</label>
+        <input type="text" id="nameInput" class="input" name="name" placeholder=""><br>
+
+        <label for="courseTypeInput">Course type:</label>
+        <input type="text" list="courseTypes" id="courseTypeInput" class="input" name="type" placeholder=""><br>
+
+        <input type="submit" id="createButton" value="Create">
+    </form>
+
+</div>
+
+<!-- LABORATORY LECTURE PROJECT SEMINARY PRACTICALS-->
+
+<datalist id="courseTypes">
+    <option value="LABORATORY">
+    <option value="LECTURE">
+    <option value="PROJECT">
+    <option value="SEMINARY">
+    <option value="PRACTICALS">
+</datalist>
+
+
+{% endblock %}

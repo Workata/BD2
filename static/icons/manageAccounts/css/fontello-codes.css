@@ -1,0 +1,5 @@
+
+.icon-user:before { content: '\e800'; } /* '' */
+.icon-angle-circled-left:before { content: '\f137'; } /* '' */
+.icon-user-plus:before { content: '\f234'; } /* '' */
+.icon-user-times:before { content: '\f235'; } /* '' */

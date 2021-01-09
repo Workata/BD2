@@ -4,10 +4,18 @@
 {% block head %}
 
 <link rel="stylesheet" href="{% static 'css/createAccount.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
 
 {% endblock %}
 
 {% block content %}
+
+<div id="backButton">
+    <a href="/root/manageAccount"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
 
 <div>
     {% for message in messages %}
@@ -20,7 +28,7 @@
     <form action="/root/createAccount" method="post" id="createAccountForm">
         {% csrf_token %}
 
-        <label for="loginInput">Login:</label>
+        <label for="loginInput" >Login:</label>
         <input type="text" id="loginInput" class="input" name="login" placeholder="Login"><br>
 
         <label for="passwordInput">Password:</label>

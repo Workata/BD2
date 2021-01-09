@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/modifyAccount.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/chooseAccountToModify"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="accountFormContainer" class="center">
+
+    <form action="/root/modifyAccount?id={{user.login}}" method="post" id="modifyAccountForm">
+        {% csrf_token %}
+
+        <label for="loginInput" >Login:</label>
+        <input type="text" id="loginInput" class="input" name="login" value="{{user.login}}" readonly><br>
+
+        <label for="passInput" >Password:</label>
+        <input type="text" id="passInput" class="input" name="pass" placeholder="password"><br>
+
+        <label for="userTypeInput">User type:</label>
+        <input type="text" list="userTypes" id="userTypeInput" class="input" name="userType" value="{{user.user_type}}"><br>
+
+        <input type="submit" id="loginButton" value="Modify">
+    </form>
+
+</div>
+
+<datalist id="userTypes">
+    <option value="STUDENT">
+    <option value="TEACHER">
+    <option value="ADMIN">
+</datalist>
+
+{% endblock %}

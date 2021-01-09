@@ -1,0 +1,83 @@
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.mainButtonA
+{
+    text-decoration: none;
+    color: white;
+    font-weight: 400;
+    width: 300px;
+    height: 300px;
+    display: block;
+    border-radius: 50%;
+}
+
+.center 
+{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+ }
+
+ .buttonBottomText
+ {
+     text-align: center;
+     margin-left: auto;
+     margin-right: auto;
+     margin-top: 5px;
+     font-size: 20px;
+
+ }
+
+ .mainButton
+ {
+    width: 300px;
+    height: 300px;
+    margin-top: 25px;
+    margin-left: 25px;
+    border-radius: 50%;
+    background-color: #242426;
+ }
+
+.mainButton:hover
+ {
+    background-color: black;
+ }
+
+ #backButton
+ {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+}
+
+
+ #container
+ {
+    width: 675px;
+    height: 350px;
+    border-radius: 15px;
+    background-image: url("/static/img/grey_wash_wall.png");
+ }
+
+ #createAccountButton
+ {
+     float: left;
+ }
+
+ #modifyAccountButton
+ {
+     float: left;
+ }
+
+ #deleteAccountButton
+ {
+     float: left;   /* ! delete this? */
+ }

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/chooseAccountToDelete.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/manageAccount"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="accountList" class= "center">
+    <table id="accountTable">
+        <tr>
+            <th class="headerCell">Username</th>
+            <th class="headerCell">User type</th>
+        </tr>
+        {% for account in accounts %}
+            <tr>
+                <td class="dataCell"><a href="/root/deleteAccount?id={{account.login}}"> {{account.login}} </a></td> 
+                <td class="dataCell">[{{account.user_type}}]</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+
+
+{% endblock %}

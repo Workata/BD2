@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/createClass.css' %}" type="text/css" />
+<!-- <script type="text/javascript" src="{% static 'js/createAdmin.js' %}"></script> -->
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+
+
+<div id="classFormContainer" class="center">
+
+    <form action="/root/createClass" method="post" id="createClassForm">
+        {% csrf_token %}
+
+        <label for="locationInput">Class location:</label>
+        <input type="text" id="locationInput" class="input" name="location" placeholder=""><br>
+
+        <label for="termInput">Class term:</label>
+        <input type="text" id="termInput" class="input" name="term" placeholder=""><br>
+
+        <label for="locationInput">Class location:</label>
+        <input type="text" id="locationInput" class="input" name="location" placeholder=""><br>
+
+        <label for="courseInput">Course id:</label>
+        <input type="text" id="courseInput" class="input" name="course" placeholder=""><br>
+
+        <label for="teacherInput">Teacher id:</label>
+        <input type="text" id="teacherInput" class="input" name="teacher" placeholder=""><br>
+
+
+        <input type="submit" id="createButton" value="Create">
+    </form>
+
+</div>
+
+{% endblock %}

@@ -4,10 +4,17 @@
 {% block head %}
 
 <link rel="stylesheet" href="{% static 'css/createMail.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
 
 {% endblock %}
 
 {% block content %}
+
+<div id="backButton">
+    <a href="/root/manageMail"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
 
 <div>
     {% for message in messages %}
@@ -15,7 +22,7 @@
     {% endfor %}
 </div>
 
-<div id="loginFormContainer" class="center">
+<div id="mailFormContainer" class="center">
 
     <form action="/root/createMail" method="post" id="createAccountForm">
         {% csrf_token %}

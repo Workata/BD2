@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/deleteMail.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/chooseMailToDelete"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="mailFormContainer" class="center">
+
+    <form action="/root/deleteMail?id={{mail.mail_id}}" method="post" id="createAccountForm">
+        {% csrf_token %}
+
+
+        <label for="mailInput">Mail:</label>
+        <input type="text" id="mailInput" class="input" name="mail" value="{{mail.mail_id}}" readonly><br>
+
+        <input type="submit" id="loginButton" value="Delete">
+    </form>
+
+</div>
+
+{% endblock %}

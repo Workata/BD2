@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/chooseAccountToDelete.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/manageMail"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="accountList" class= "center">
+    <table id="accountTable">
+        <tr>
+            <th class="headerCell">E-mail</th>
+        </tr>
+        {% for mail in mails %}
+            <tr>
+                <td class="dataCell"><a href="/root/deleteMail?id={{mail.mail_id}}"> {{mail.mail_id}} </a></td> 
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+
+
+{% endblock %}
