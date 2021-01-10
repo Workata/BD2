@@ -24,12 +24,15 @@ urlpatterns = [
    path('createAdmin', views.createAdmin, name = 'createAdmin'),
    path('chooseUntakenTeacherAccount', views.chooseUntakenTeacherAccount, name= 'chooseUntakenTeacherAccount'),
    path('createTeacher', views.createTeacher, name = 'createTeacher'),
+   path('chooseUntakenStudentAccount', views.chooseUntakenStudentAccount, name= 'chooseUntakenStudentAccount'),
+   path('createStudent', views.createStudent, name = 'createStudent'),
+   
    # path('chooseUserToModify', views.chooseUserToModify, name= 'chooseUserToModify'),
    # path('modifyUser', views.modifyUser, name= 'modifyUser'),
    # path('chooseUserToDelete', views.chooseUserToDelete, name= 'chooseUserToDelete'),
    # path('deleteUser', views.deleteUser, name= 'deleteUser'),
 
-   path('createStudent', views.createStudent, name = 'createStudent'),
+   
    path('createCourse', views.createCourse, name = 'createCourse'),
    path('createClass', views.createClass, name = 'createClass'),
 ]

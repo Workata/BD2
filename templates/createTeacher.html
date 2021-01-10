@@ -4,11 +4,18 @@
 {% block head %}
 
 <link rel="stylesheet" href="{% static 'css/createTeacher.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
 <script type="text/javascript" src="{% static 'js/createTeacher.js' %}"></script>
 
 {% endblock %}
 
 {% block content %}
+
+<div id="backButton">
+    <a href="/root/chooseUntakenTeacherAccount"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
 
 <div>
     {% for message in messages %}

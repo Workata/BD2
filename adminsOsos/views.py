@@ -141,6 +141,14 @@ def chooseUntakenTeacherAccount(request):
     teacher_users = User.objects.filter(user_type="TEACHER").exclude(pk__in = teachers_user_id).order_by("login")
     return render(request, 'chooseUntakenTeacherAccount.html', {'teacher_users': teacher_users})
 
+def chooseUntakenStudentAccount(request):
+    students = Student.objects.all()
+    students_user_id = []
+    for student in students:
+        students_user_id.append(student.user_id)
+
+    student_users = User.objects.filter(user_type="STUDENT").exclude(pk__in = students_user_id).order_by("login")
+    return render(request, 'chooseUntakenStudentAccount.html', {'student_users': student_users})
 
 def createAdmin(request):
 
