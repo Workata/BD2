@@ -150,6 +150,51 @@ def chooseUntakenStudentAccount(request):
     student_users = User.objects.filter(user_type="STUDENT").exclude(pk__in = students_user_id).order_by("login")
     return render(request, 'chooseUntakenStudentAccount.html', {'student_users': student_users})
 
+def createStudent(request):   #  , user
+
+    if request.method == 'GET':
+        userLogin = request.GET['userLogin']
+        user = User.objects.filter(login = userLogin).first()
+        return render(request, 'createStudent.html', {'user': user})
+    else:                                           # request.method == 'POST'         
+        # receive data from form
+        studentId        = request.POST['id']      # 248845
+        name             = request.POST['name']
+        lastName         = request.POST['lastName']
+        phoneNumber      = request.POST['number']
+        inaugurationDate = request.POST['ingDate']
+        departmentName   = request.POST['department']
+        fieldOfStudy     = request.POST['field']
+        userLogin        = request.POST['userId']
+        mail             = request.POST['mail']
+
+        # TODO data validation
+
+        if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
+            newMail = Mail()
+            newMail.mail_id = mail
+            newMail.save()
+
+        # * get instances of foreign key attributes 
+        user = User.objects.filter(login = userLogin).first()
+        email = Mail.objects.filter(mail_id = mail).first()
+        
+        newStudent                      = Student()
+        newStudent.student_id           = studentId
+        newStudent.first_name           = name
+        newStudent.last_name            = lastName
+        newStudent.phone_number         = '+48 ' + phoneNumber  # TODO change in data validation
+        newStudent.inauguration_date    = inaugurationDate
+        newStudent.department_name      = departmentName
+        newStudent.field_of_study       = fieldOfStudy
+        newStudent.user                 = user
+        newStudent.mail                 = email
+        newStudent.save()
+
+        messages.info(request,'Student created successfully')
+
+        return render(request, 'createStudent.html', {'user': user})   # ? maybe change page?
+
 def createAdmin(request):
 
     if request.method == 'GET':
@@ -198,51 +243,50 @@ def chooseUser(request):
         # ! user not found messages.info(request,'Mail created successfully')
         return render(request, 'chooseUser.html')
 
-
-def createStudent(request):   #  , user
+def chooseUserToModify(request):
 
     if request.method == 'GET':
-        userLogin = request.GET['userLogin']
-        user = User.objects.filter(login = userLogin).first()
-        return render(request, 'createStudent.html', {'user': user})
-    else:                                           # request.method == 'POST'         
+        all_students = Student.objects.all()
+        all_admins = Admin.objects.all()
+        all_teachers = Teacher.objects.all()
+
+        return render(request, 'chooseUserToModify.html', {'all_students': all_students, 'all_admins': all_admins, 'all_teachers': all_teachers})
+
+def modifyUserAdmin(request):
+    if request.method == 'GET':
+
+        admin_id = request.GET['id']
+        admin = Admin.objects.filter(admin_id = admin_id).first()
+
+        return render(request, 'modifyUserAdmin.html', {'admin': admin})
+
+    else:  # request.method == 'POST
         # receive data from form
-        studentId        = request.POST['id']      # 248845
+        admin_id = request.GET['id']
+        admin = Admin.objects.filter(admin_id = admin_id).first()
+
         name             = request.POST['name']
         lastName         = request.POST['lastName']
         phoneNumber      = request.POST['number']
-        inaugurationDate = request.POST['ingDate']
-        departmentName   = request.POST['department']
-        fieldOfStudy     = request.POST['field']
-        userLogin        = request.POST['userId']
-        mail             = request.POST['mail']
+        #userLogin        = request.POST['userId']
 
         # TODO data validation
 
-        if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
-            newMail = Mail()
-            newMail.mail_id = mail
-            newMail.save()
-
         # * get instances of foreign key attributes 
-        user = User.objects.filter(login = userLogin).first()
-        email = Mail.objects.filter(mail_id = mail).first()
+        #user = User.objects.filter(login = userLogin).first()
         
-        newStudent                      = Student()
-        newStudent.student_id           = studentId
-        newStudent.first_name           = name
-        newStudent.last_name            = lastName
-        newStudent.phone_number         = '+48 ' + phoneNumber  # TODO change in data validation
-        newStudent.inauguration_date    = inaugurationDate
-        newStudent.department_name      = departmentName
-        newStudent.field_of_study       = fieldOfStudy
-        newStudent.user                 = user
-        newStudent.mail                 = email
-        newStudent.save()
+        adminModified               = admin
+        adminModified.first_name    = name
+        adminModified.last_name     = lastName
+        adminModified.phone_number  = phoneNumber  # TODO change in data validation
+        #adminModified.user          = user
+        adminModified.save()
 
-        messages.info(request,'Student created successfully')
+        messages.info(request,'Admin updated successfully')
 
-        return render(request, 'createStudent.html', {'user': user})   # ? maybe change page?
+        return render(request, 'modifyUserAdmin.html', {'admin': adminModified})   # ? maybe change page?
+
+    
 
 def createTeacher(request):
 
