@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/studentHome.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/student-home-icons-set/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="logout">
+    <a href="/"> 
+        Logout 
+    </a>
+</div>
+
+<div id="container" class="center">
+
+    <div id="yourPersonalDataButton" class="mainButton">
+        <a href="/student/yourPersonalData"> 
+            <i class="icon-child"></i>
+            <div class="buttonBottomText">Your personal data</div>  
+        </a>
+    </div>
+
+    <div id="yourMessagesButton" class="mainButton">
+        <a href="/student/yourMessages"> 
+            <i class="icon-mail"></i>
+            <div class="buttonBottomText">Your messages</div> 
+        </a>
+    </div>
+
+    <div style="clear:both"></div>
+
+    <div id="yourGradesButton" class="mainButton">
+        <a href="/student/yourGrades"> 
+            <i class="icon-address-book-alt"></i>
+            <div class="buttonBottomText">Your grades</div> 
+        </a>
+    </div>
+ 
+    <div style="clear:both"></div>
+
+</div>
+
+
+<!--
+    <a href="/root/manageAccount">Manage account</a> <br>   <!-- <a href="/root/createAccount">Create account</a> <br> 
+    <a href="/root/manageMail">Manage e-mail</a> <br>
+    <a href="/root/manageUser">Manage user type</a> <br>
+    <a href="/root/manageCourse">Manage course</a> <br>
+    <a href="/root/manageClass">Manage class</a> <br>
+
+-->
+
+{% endblock %}
