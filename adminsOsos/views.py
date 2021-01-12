@@ -258,6 +258,8 @@ def createAdmin(request):
 
         # TODO data validation
 
+        # heheszki
+
         # * get instances of foreign key attributes 
         user = User.objects.filter(login = userLogin).first()
         
