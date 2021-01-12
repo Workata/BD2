@@ -79,14 +79,14 @@ def modifyAccount(request):
         # user.login = user_login_new
         user.user_type = user_type_new
         if user_password_new != '':                     # if password is blank dont update it -> dont hash it
-            messages.info(request,'Password has been changed') # TODO wyskakuje na innej stronie 
+            messages.info(request,'Password has been changed') 
             hashed_pass = make_password(user_password_new)
             user.password = hashed_pass
 
         # ? https://docs.djangoproject.com/en/dev/ref/models/instances/?from=olddocs#how-django-knows-to-update-vs-insert
         user.save()        # Primary key has changed so I have to probably force an update (in other case it will insert)    
         # messages.info(request,'User has been updated successfully')
-        return render(request, 'modifyAccount.html', {'user': user})
+        return render(request, 'modifyAccount.html', {'user': user, "created": True })
 
 def chooseAccountToDelete(request):
     all_accounts = User.objects.all().order_by("user_type")
@@ -124,7 +124,7 @@ def createMail(request):
             newMail.mail_id = mail
             newMail.save()
 
-            messages.info(request,'Mail created successfully')
+            messages.info(request,'Mail has been created successfully')
             return render(request, 'createMail.html', {"created": True})
         else: 
             messages.error(request,'Invalid e-mail address')
@@ -143,7 +143,7 @@ def deleteMail(request):
         mail_id = request.GET['id']
         mail = Mail.objects.filter(mail_id = mail_id).first()
         mail.delete()
-        messages.info(request,'Mail deleted successfully')
+        messages.info(request,'Mail has been deleted successfully')
         return render(request, 'deleteMail.html', {"created": True})
 
 def manageUser(request):
@@ -221,7 +221,7 @@ def createStudent(request):   #  , user
         newStudent.student_id           = studentId
         newStudent.first_name           = name
         newStudent.last_name            = lastName
-        newStudent.phone_number         = '+48 ' + phoneNumber  # TODO change in data validation
+        newStudent.phone_number         = '+48 ' + phoneNumber
         newStudent.inauguration_date    = inaugurationDate
         newStudent.department_name      = departmentName
         newStudent.field_of_study       = fieldOfStudy
@@ -229,9 +229,9 @@ def createStudent(request):   #  , user
         newStudent.mail                 = email
         newStudent.save()
 
-        messages.info(request,'Student created successfully')
+        messages.info(request,'Student has been created successfully')
 
-        return render(request, 'createStudent.html', {'user': user}, {"created": True})   # ? maybe change page?
+        return render(request, 'createStudent.html', {'user': user, "created": True})   # ? maybe change page?
 
 def createAdmin(request):
 
@@ -252,7 +252,7 @@ def createAdmin(request):
 
         if re.match(regex, phoneNumber) == False:
            messages.error(request, 'Invalid phone number')
-           return render(request, 'createAdmin.html', {'user': user}, {"invalid": True})
+           return render(request, 'createAdmin.html', {'user': user, "invalid": True})
 
         # * get instances of foreign key attributes 
         user = User.objects.filter(login = userLogin).first()
@@ -260,13 +260,13 @@ def createAdmin(request):
         newAdmin               = Admin()
         newAdmin.first_name    = name
         newAdmin.last_name     = lastName
-        newAdmin.phone_number  = '+48 ' + phoneNumber  # TODO change in data validation
+        newAdmin.phone_number  = '+48 ' + phoneNumber
         newAdmin.user          = user
         newAdmin.save()
 
-        messages.info(request,'Admin created successfully')
+        messages.info(request,'Admin has been created successfully')
 
-        return render(request, 'createAdmin.html', {'user': user})   # ? maybe change page?
+        return render(request, 'createAdmin.html', {'user': user, "created": True})   # ? maybe change page?
 
 def chooseUser(request):
 
@@ -314,7 +314,7 @@ def modifyUserAdmin(request):
         phoneNumber      = request.POST['number']
         #userLogin        = request.POST['userId']
 
-        # phone numbwe validation
+        # phone number validation
         regex = "^[0-9]{9}$"
 
         if re.match(regex, phoneNumber) == False:
@@ -331,9 +331,9 @@ def modifyUserAdmin(request):
         #adminModified.user          = user
         adminModified.save()
 
-        messages.info(request,'Admin updated successfully')
+        messages.info(request,'Admin has been updated successfully')
 
-        return render(request, 'modifyUserAdmin.html', {'admin': adminModified})   # ? maybe change page?
+        return render(request, 'modifyUserAdmin.html', {'admin': adminModified, "created": True})   # ? maybe change page?
 
     
 
@@ -357,7 +357,7 @@ def createTeacher(request):
 
         if re.match(regex, phoneNumber) == False:
            messages.error(request, 'Invalid phone number')
-           return render(request, 'createTeacher.html', {'user': user}, {"invalid": True})
+           return render(request, 'createTeacher.html', {'user': user, "invalid": True})
         
 
         if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
@@ -378,9 +378,9 @@ def createTeacher(request):
         newTeacher.mail                 = email
         newTeacher.save()
 
-        messages.info(request,'Teacher created successfully')
+        messages.info(request,'Teacher has been created successfully')
 
-        return render(request, 'createTeacher.html', {'user': user}, {"created": True})   # ? maybe change page?
+        return render(request, 'createTeacher.html', {'user': user, "created": True})   # ? maybe change page?
 
 
 def createCourse(request):
@@ -398,9 +398,9 @@ def createCourse(request):
         new_course.course_type = course_type
         new_course.save()
 
-        messages.info(request,'Course created successfully')
+        messages.info(request,'Course has been created successfully')
 
-        return render(request, 'createCourse.html')   # ? maybe change page?
+        return render(request, 'createCourse.html', {"created": True})   # ? maybe change page?
 
 def createClass(request):
     if request.method == 'GET':
@@ -417,6 +417,6 @@ def createClass(request):
         new_course.course_type = course_type
         new_course.save()
 
-        messages.info(request,'Class created successfully')
+        messages.info(request,'Class has been created successfully')
 
-        return render(request, 'createClass.html')   # ? maybe change page?
+        return render(request, 'createClass.html', {"created": True})   # ? maybe change page?
