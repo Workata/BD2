@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/modifyAccount.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/chooseCourseToModify"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div id="accountFormContainer" class="center">
+
+    <form action="/root/modifyCourse?id={{course.course_id}}" method="post" id="modifyAccountForm">
+        {% csrf_token %}
+
+        <label for="nameInput" >Course name:</label>
+        <input type="text" id="nameInput" class="input" name="name" value="{{course.course_name}}" ><br>
+
+        <label for="courseInput" >Course type:</label>
+        <input type="text" list="courseTypes" id="courseInput" class="input" name="type" value="{{course.course_type}}" ><br>
+
+        <input type="submit" id="loginButton" value="Modify">
+    </form>
+
+</div>
+
+<datalist id="courseTypes">
+    <option value="LABORATORY">
+    <option value="LECTURE">
+    <option value="PROJECT">
+    <option value="SEMINARY">
+    <option value="PRACTICALS">
+</datalist>
+
+{% endblock %}

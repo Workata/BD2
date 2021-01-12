@@ -1,1 +1,3 @@
 osos/settings.py
+*.pyc
+*.pyo

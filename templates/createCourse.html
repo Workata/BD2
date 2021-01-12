@@ -4,6 +4,7 @@
 {% block head %}
 
 <link rel="stylesheet" href="{% static 'css/createCourse.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
 <!-- <script type="text/javascript" src="{% static 'js/createAdmin.js' %}"></script> -->
 
 {% endblock %}
@@ -15,6 +16,12 @@
         {{message}}
     {% endfor %}
 </div> -->
+
+<div id="backButton">
+    <a href="/root/manageCourse"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
 
 
 

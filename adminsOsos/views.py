@@ -199,13 +199,15 @@ def createStudent(request):   #  , user
         userLogin        = request.POST['userId']
         mail             = request.POST['mail']
 
+        # * get instances of foreign key attributes 
+        user = User.objects.filter(login = userLogin).first()
 
         # phone number validation
         regex = "^[0-9]{9}$"
 
         if re.match(regex, phoneNumber) is None:
            messages.error(request, 'Invalid phone number')
-           return render(request, 'createStudent.html', {"invalid": True})
+           return render(request, 'createStudent.html', {'user': user,"invalid": True})
 
 
         if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
@@ -213,8 +215,6 @@ def createStudent(request):   #  , user
             newMail.mail_id = mail
             newMail.save()
 
-        # * get instances of foreign key attributes 
-        user = User.objects.filter(login = userLogin).first()
         email = Mail.objects.filter(mail_id = mail).first()
         
         newStudent                      = Student()
@@ -246,16 +246,15 @@ def createAdmin(request):
         phoneNumber      = request.POST['number']
         userLogin        = request.POST['userId']
 
+        # * get instances of foreign key attributes 
+        user = User.objects.filter(login = userLogin).first()
 
         # phone number validation
         regex = "^[0-9]{9}$"
 
         if re.match(regex, phoneNumber) is None:
            messages.error(request, 'Invalid phone number')
-           return render(request, 'createAdmin.html', {"invalid": True})
-
-        # * get instances of foreign key attributes 
-        user = User.objects.filter(login = userLogin).first()
+           return render(request, 'createAdmin.html', {'user': user,"invalid": True})
         
         newAdmin               = Admin()
         newAdmin.first_name    = name
@@ -314,9 +313,6 @@ def modifyUserAdmin(request):
         phoneNumber      = request.POST['number']
         #userLogin        = request.POST['userId']
 
-<<<<<<< HEAD
-        # TODO data validation
-=======
         # phone number validation
         regex = "^\+48\s[0-9]{9}$"
 
@@ -326,17 +322,12 @@ def modifyUserAdmin(request):
 
         # * get instances of foreign key attributes 
         #user = User.objects.filter(login = userLogin).first()
->>>>>>> origin/beta
         
         adminModified               = admin
         adminModified.first_name    = name
         adminModified.last_name     = lastName
-<<<<<<< HEAD
-        adminModified.phone_number  = phoneNumber  # TODO change in data validation
-=======
         adminModified.phone_number  = phoneNumber  
         #adminModified.user          = user
->>>>>>> origin/beta
         adminModified.save()
 
         messages.info(request,'Admin has been updated successfully')
@@ -376,7 +367,7 @@ def modifyUserTeacher(request):         # change for teacher
 
         messages.info(request,'Teacher updated successfully')
 
-        return render(request, 'modifyUserTeacher.html', {'teacher': teacherModified})   # ? maybe change page?
+        return render(request, 'modifyUserTeacher.html', {'teacher': teacherModified, "created": True})   # ? maybe change page?
 
 def modifyUserStudent(request):         # change for student
     if request.method == 'GET':
@@ -412,7 +403,7 @@ def modifyUserStudent(request):         # change for student
 
         messages.info(request,'Student updated successfully')
 
-        return render(request, 'modifyUserStudent.html', {'student': studentModified})   # ? maybe change page?
+        return render(request, 'modifyUserStudent.html', {'student': studentModified, "created": True})   # ? maybe change page?
 
 def chooseUserToDelete(request):
     all_students = Student.objects.all()
@@ -459,6 +450,9 @@ def createTeacher(request):
         userLogin        = request.POST['userId']
         mail             = request.POST['mail']
 
+        # * get instances of foreign key attributes 
+        user = User.objects.filter(login = userLogin).first()
+
         # phone number validation
         regex = "^[0-9]{9}$"
         
@@ -472,8 +466,7 @@ def createTeacher(request):
             newMail.mail_id = mail
             newMail.save()
 
-        # * get instances of foreign key attributes 
-        user = User.objects.filter(login = userLogin).first()
+
         email = Mail.objects.filter(mail_id = mail).first()
         
         newTeacher                      = Teacher()
@@ -509,6 +502,70 @@ def createCourse(request):
 
         return render(request, 'createCourse.html', {"created": True})   # ? maybe change page?
 
+def chooseCourseToModify(request):
+    all_courses = Course.objects.all()
+    return render(request, 'chooseCourseToModify.html',{'courses':all_courses})
+
+def modifyCourse(request):
+
+    if request.method == 'GET':
+
+        course_id = request.GET['id']
+        course = Course.objects.filter(course_id = course_id).first()
+
+        return render(request, 'modifyCourse.html', {'course': course})
+
+    else:  # request.method == 'POST
+        # receive data from form
+        course_id = request.GET['id']
+        course = Course.objects.filter(course_id = course_id).first()
+
+        course_name      = request.POST['name']
+        course_type      = request.POST['type']
+
+        # TODO data validation
+        
+        courseModified               = course
+        courseModified.course_name   = course_name
+        courseModified.course_type   = course_type
+  
+        courseModified.save()
+
+        messages.info(request,'Course updated successfully')
+
+        return render(request, 'modifyCourse.html', {'course': courseModified, 'created': True})  
+
+def chooseCourseToDelete(request):
+    all_courses = Course.objects.all()
+    return render(request, 'chooseCourseToDelete.html',{'courses':all_courses})
+
+def deleteCourse(request):
+    if request.method == 'GET':
+
+        course_id = request.GET['id']
+        course = Course.objects.filter(course_id = course_id).first()
+
+        return render(request, 'deleteCourse.html', {'course': course})
+
+    else:  # request.method == 'POST
+        # receive data from form
+        course_id = request.GET['id']
+        course = Course.objects.filter(course_id = course_id).first()
+        course.save()
+
+        messages.info(request,'Course deleted successfully')
+
+        return render(request, 'modifyCourse.html', {'created': True})  
+
+def manageClass(request):
+    return render(request, 'manageClass.html')
+
+def chooseCourseToClass(request):
+    return render(request, 'chooseCourseToClass.html')
+
+def chooseTeacherToClass(request):
+    return render(request, 'chooseTeacherToClass.html')
+
 def createClass(request):
     if request.method == 'GET':
         return render(request, 'createClass.html')
@@ -527,3 +584,15 @@ def createClass(request):
         messages.info(request,'Class has been created successfully')
 
         return render(request, 'createClass.html', {"created": True})   # ? maybe change page?
+
+def chooseClassToModify(request):
+    pass
+
+def modifyClass(request):
+    pass
+
+def chooseClassToDelete(request):
+    pass
+
+def deleteClass(request):
+    pass

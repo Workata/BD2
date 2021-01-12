@@ -36,7 +36,20 @@ urlpatterns = [
 
 
    path('manageCourse', views.manageCourse, name= 'manageCourse'),
+   path('createCourse', views.createCourse, name= 'createCourse'),
+   path('chooseCourseToModify', views.chooseCourseToModify, name= 'chooseCourseToModify'),
+   path('modifyCourse', views.modifyCourse, name= 'modifyCourse'),
+   path('chooseCourseToDelete', views.chooseCourseToDelete, name= 'chooseCourseToDelete'),
+   path('deleteCourse', views.deleteCourse, name= 'deleteCourse'),
 
+   path('manageClass', views.manageClass, name= 'manageClass'),
+   path('chooseCourseToClass', views.chooseCourseToClass, name= 'chooseCourseToClass'),
+   path('chooseTeacherToClass', views.chooseTeacherToClass, name= 'chooseTeacherToClass'),
+   path('createClass', views.createClass, name= 'createClass'),
+   path('chooseClassToModify', views.chooseClassToModify, name= 'chooseClassToModify'),
+   path('modifyClass', views.modifyClass, name= 'modifyClass'),
+   path('chooseClassToDelete', views.chooseClassToDelete, name= 'chooseClassToDelete'),
+   path('deleteClass', views.deleteClass, name= 'deleteClass'),
 
    # path('chooseUserToModify', views.chooseUserToModify, name= 'chooseUserToModify'),
    # path('modifyUser', views.modifyUser, name= 'modifyUser'),
@@ -44,8 +57,8 @@ urlpatterns = [
    # path('deleteUser', views.deleteUser, name= 'deleteUser'),
    # path('createUser', views.createUser, name= 'createUser'),
    
-   path('createCourse', views.createCourse, name = 'createCourse'),
-   path('createClass', views.createClass, name = 'createClass'),
-   path('chooseUser', views.chooseUser, name= 'chooseUser'),
+   # path('createCourse', views.createCourse, name = 'createCourse'),
+   # path('createClass', views.createClass, name = 'createClass'),
+   # path('chooseUser', views.chooseUser, name= 'chooseUser'),
 ]
 

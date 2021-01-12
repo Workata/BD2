@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/chooseAccountToModify.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/manageCourse"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+
+<div id="accountList" class= "center">
+    <table id="accountTable">
+        <tr>
+            <th class="headerCell">Course name</th>
+            <th class="headerCell">Course type</th>
+        </tr>
+        {% for course in courses %}
+            <tr>
+                <td class="dataCell"><a href="/root/deleteCourse?id={{course.course_id}}"> {{course.course_name}} </a></td> 
+                <td class="dataCell">[{{course.course_type}}]</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+
+
+{% endblock %}

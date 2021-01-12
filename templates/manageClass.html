@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/manageAccount.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/manage-class-icons-set/css/fontello.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/home"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+
+<div id="container" class="center">
+
+    <div id="createAccountButton" class="mainButton">
+        <a href="/root/createClass" class = "mainButtonA"> 
+            <i class="icon-book-open"></i>
+            <div class="buttonBottomText">Create class</div> 
+        </a>
+    </div>
+
+    <div id="modifyAccountButton" class="mainButton">
+        <a href="/root/chooseClassToModify" class = "mainButtonA"> 
+            <i class="icon-book-open-1"></i>
+            <div class="buttonBottomText">Modify class</div> 
+        </a>
+    </div>
+
+    <div id="deleteAccountButton" class="mainButton">
+        <a href="/root/chooseClassToDelete" class = "mainButtonA"> 
+            <i class="icon-book-alt"></i>
+            <div class="buttonBottomText">Delete class</div>     
+        </a>
+    </div>
+
+    <div style="clear:both"></div>
+
+</div>
+{% endblock %}
