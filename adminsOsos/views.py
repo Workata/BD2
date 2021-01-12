@@ -5,8 +5,11 @@ from studentsOsos.models import Student
 from adminsOsos.models import Admin
 from teachersOsos.models import Teacher
 from classesOsos.models import Course, Class
+from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
+import re
+
 # Create your views here.
 
 def home(request):
@@ -25,6 +28,24 @@ def createAccount(request):
         password = request.POST['password']
         user_type = request.POST['userType']    # TODO make repeat password field
 
+
+        # login validation
+        if len(login) < 5:
+           messages.error(request, 'This login must contain at least 5 characters.')
+           return render(request, 'createAccount.html', {"invalid": True})
+        elif len(login) > 20:
+           messages.error(request, 'This login  may contain up to 45 characters.')
+           return render(request, 'createAccount.html', {"invalid": True})
+
+        # password validation  
+        if len(password) < 5:
+           messages.error(request, 'This password must contain at least 5 characters.')
+           return render(request, 'createAccount.html', {"invalid": True})
+        elif len(password) > 20:
+           messages.error(request, 'This password may contain up to 128 characters.')
+           return render(request, 'createAccount.html', {"invalid": True})
+
+
         user = User()
         hashed_pass = make_password(password)
 
@@ -32,10 +53,11 @@ def createAccount(request):
         user.password = hashed_pass
         user.user_type = user_type
 
+        messages.info(request,'User has been created successfully')
         user.save()
 
-        messages.info(request,'User created successfully')
-        return render(request, 'createAccount.html')
+        #messages.info(request,'User created successfully')
+        return render(request, 'createAccount.html', {"created": True})
     
 def chooseAccountToModify(request):
     all_accounts = User.objects.all().order_by("user_type")
@@ -57,14 +79,14 @@ def modifyAccount(request):
         # user.login = user_login_new
         user.user_type = user_type_new
         if user_password_new != '':                     # if password is blank dont update it -> dont hash it
-            messages.info(request,'pass changed')
+            messages.info(request,'Password has been changed') 
             hashed_pass = make_password(user_password_new)
             user.password = hashed_pass
 
         # ? https://docs.djangoproject.com/en/dev/ref/models/instances/?from=olddocs#how-django-knows-to-update-vs-insert
         user.save()        # Primary key has changed so I have to probably force an update (in other case it will insert)    
-        #messages.info(request,'User updated successfully')
-        return render(request, 'modifyAccount.html', {'user': user})
+        # messages.info(request,'User has been updated successfully')
+        return render(request, 'modifyAccount.html', {'user': user, "created": True })
 
 def chooseAccountToDelete(request):
     all_accounts = User.objects.all().order_by("user_type")
@@ -79,8 +101,8 @@ def deleteAccount(request):
         user_login = request.GET['id']
         user = User.objects.filter(login = user_login).first()
         user.delete()
-        messages.info(request,'User deleted successfully')
-        return render(request, 'deleteAccount.html')
+        messages.info(request,'User has been deleted successfully')
+        return render(request, 'deleteAccount.html', {"created": True})
 
 def manageMail(request):
     return render(request, 'manageMail.html')
@@ -92,12 +114,21 @@ def createMail(request):
 
     else:   # request.method == 'POST'
         mail = request.POST['mail']
-        newMail = Mail()
-        newMail.mail_id = mail
-        newMail.save()
 
-        messages.info(request,'Mail created successfully')
-        return render(request, 'createMail.html')
+        # e-mail validation
+        regex = "^\d{6}@student.pwr.edu.pl|[a-z]{2,20}.[a-z]{2,20}@pwr.edu.pl$"
+
+        if re.match(regex, mail):
+
+            newMail = Mail()
+            newMail.mail_id = mail
+            newMail.save()
+
+            messages.info(request,'Mail has been created successfully')
+            return render(request, 'createMail.html', {"created": True})
+        else: 
+            messages.error(request,'Invalid e-mail address')
+            return render(request, 'createMail.html', {"invalid": True})
 
 def chooseMailToDelete(request):
     all_mails = Mail.objects.all().order_by("mail_id")
@@ -112,8 +143,8 @@ def deleteMail(request):
         mail_id = request.GET['id']
         mail = Mail.objects.filter(mail_id = mail_id).first()
         mail.delete()
-        messages.info(request,'Mail deleted successfully')
-        return render(request, 'deleteMail.html')
+        messages.info(request,'Mail has been deleted successfully')
+        return render(request, 'deleteMail.html', {"created": True})
 
 def manageUser(request):
     return render(request, 'manageUser.html')
@@ -168,7 +199,14 @@ def createStudent(request):   #  , user
         userLogin        = request.POST['userId']
         mail             = request.POST['mail']
 
-        # TODO data validation
+
+        # phone number validation
+        regex = "^[0-9]{9}$"
+
+        if re.match(regex, phoneNumber) is None:
+           messages.error(request, 'Invalid phone number')
+           return render(request, 'createStudent.html', {"invalid": True})
+
 
         if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
             newMail = Mail()
@@ -183,7 +221,7 @@ def createStudent(request):   #  , user
         newStudent.student_id           = studentId
         newStudent.first_name           = name
         newStudent.last_name            = lastName
-        newStudent.phone_number         = '+48 ' + phoneNumber  # TODO change in data validation
+        newStudent.phone_number         = '+48 ' + phoneNumber
         newStudent.inauguration_date    = inaugurationDate
         newStudent.department_name      = departmentName
         newStudent.field_of_study       = fieldOfStudy
@@ -191,9 +229,9 @@ def createStudent(request):   #  , user
         newStudent.mail                 = email
         newStudent.save()
 
-        messages.info(request,'Student created successfully')
+        messages.info(request,'Student has been created successfully')
 
-        return render(request, 'createStudent.html', {'user': user})   # ? maybe change page?
+        return render(request, 'createStudent.html', {'user': user, "created": True})   # ? maybe change page?
 
 def createAdmin(request):
 
@@ -208,7 +246,13 @@ def createAdmin(request):
         phoneNumber      = request.POST['number']
         userLogin        = request.POST['userId']
 
-        # TODO data validation
+
+        # phone number validation
+        regex = "^[0-9]{9}$"
+
+        if re.match(regex, phoneNumber) is None:
+           messages.error(request, 'Invalid phone number')
+           return render(request, 'createAdmin.html', {"invalid": True})
 
         # * get instances of foreign key attributes 
         user = User.objects.filter(login = userLogin).first()
@@ -216,13 +260,13 @@ def createAdmin(request):
         newAdmin               = Admin()
         newAdmin.first_name    = name
         newAdmin.last_name     = lastName
-        newAdmin.phone_number  = '+48 ' + phoneNumber  # TODO change in data validation
+        newAdmin.phone_number  = '+48 ' + phoneNumber
         newAdmin.user          = user
         newAdmin.save()
 
-        messages.info(request,'Admin created successfully')
+        messages.info(request,'Admin has been created successfully')
 
-        return render(request, 'createAdmin.html', {'user': user})   # ? maybe change page?
+        return render(request, 'createAdmin.html', {'user': user, "created": True})   # ? maybe change page?
 
 def chooseUser(request):
 
@@ -270,17 +314,34 @@ def modifyUserAdmin(request):
         phoneNumber      = request.POST['number']
         #userLogin        = request.POST['userId']
 
+<<<<<<< HEAD
         # TODO data validation
+=======
+        # phone number validation
+        regex = "^\+48\s[0-9]{9}$"
+
+        if re.match(regex, phoneNumber) is None:
+            messages.error(request, 'Invalid phone number')
+            return render(request, 'modifyUserAdmin.html', {"invalid": True})
+
+        # * get instances of foreign key attributes 
+        #user = User.objects.filter(login = userLogin).first()
+>>>>>>> origin/beta
         
         adminModified               = admin
         adminModified.first_name    = name
         adminModified.last_name     = lastName
+<<<<<<< HEAD
         adminModified.phone_number  = phoneNumber  # TODO change in data validation
+=======
+        adminModified.phone_number  = phoneNumber  
+        #adminModified.user          = user
+>>>>>>> origin/beta
         adminModified.save()
 
-        messages.info(request,'Admin updated successfully')
+        messages.info(request,'Admin has been updated successfully')
 
-        return render(request, 'modifyUserAdmin.html', {'admin': adminModified})   # ? maybe change page?
+        return render(request, 'modifyUserAdmin.html', {'admin': adminModified, "created": True})   # ? maybe change page?
 
 def modifyUserTeacher(request):         # change for teacher
     if request.method == 'GET':
@@ -398,7 +459,13 @@ def createTeacher(request):
         userLogin        = request.POST['userId']
         mail             = request.POST['mail']
 
-        # TODO data validation
+        # phone number validation
+        regex = "^[0-9]{9}$"
+        
+        if re.match(regex, phoneNumber) is None:
+           messages.error(request, 'Invalid phone number')
+           return render(request, 'createTeacher.html', {'user': user, "invalid": True})
+        
 
         if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
             newMail = Mail()
@@ -412,15 +479,15 @@ def createTeacher(request):
         newTeacher                      = Teacher()
         newTeacher.first_name           = name
         newTeacher.last_name            = lastName
-        newTeacher.phone_number         = '+48 ' + phoneNumber  # TODO change in data validation
+        newTeacher.phone_number         = '+48 ' + phoneNumber  
         newTeacher.department_name      = departmentName
         newTeacher.user                 = user
         newTeacher.mail                 = email
         newTeacher.save()
 
-        messages.info(request,'Teacher created successfully')
+        messages.info(request,'Teacher has been created successfully')
 
-        return render(request, 'createTeacher.html', {'user': user})   # ? maybe change page?
+        return render(request, 'createTeacher.html', {'user': user, "created": True})   # ? maybe change page?
 
 
 def createCourse(request):
@@ -438,9 +505,9 @@ def createCourse(request):
         new_course.course_type = course_type
         new_course.save()
 
-        messages.info(request,'Course created successfully')
+        messages.info(request,'Course has been created successfully')
 
-        return render(request, 'createCourse.html')   # ? maybe change page?
+        return render(request, 'createCourse.html', {"created": True})   # ? maybe change page?
 
 def createClass(request):
     if request.method == 'GET':
@@ -457,6 +524,6 @@ def createClass(request):
         new_course.course_type = course_type
         new_course.save()
 
-        messages.info(request,'Class created successfully')
+        messages.info(request,'Class has been created successfully')
 
-        return render(request, 'createClass.html')   # ? maybe change page?
+        return render(request, 'createClass.html', {"created": True})   # ? maybe change page?
