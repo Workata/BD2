@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSOS</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/validationInfo.css' %}" type="text/css" />
 
     {% block head %}
 
@@ -15,13 +16,38 @@
 
 
 </head>
+
 <body>
+
+    {% if invalid %}
+    <div class="alert"> 
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+        {% for message in messages %}
+
+            {{message}}
+                     
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if created %}
+    <div class="info"> 
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+        {% for message in messages %}
+
+            {{message}}
+        
+        {% endfor %}
+    </div>
+    {% endif %}
+
 
     {% block content %}
 
 
 
     {% endblock %}
+
 
 </body>
 </html>
