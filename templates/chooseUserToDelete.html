@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/chooseAccountToModify.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/manageUser"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="accountList" class= "center">
+    <table id="accountTable">
+        <tr>
+            <th class="headerCell">Name</th>
+            <th class="headerCell">Last name</th>
+            <th class="headerCell">User type</th>
+        </tr>
+
+        {% for admin in all_admins %}
+            <tr>
+                <td class="dataCell"><a href="/root/deleteUser?id={{admin.admin_id}}&type=admin"> {{admin.first_name}} </a></td> 
+                <td class="dataCell">{{admin.last_name}}</td>
+                <td class="dataCell">[ADMIN]</td>
+            </tr>
+        {% endfor %}
+
+        {% for teacher in all_teachers %}
+            <tr>
+                <td class="dataCell"><a href="/root/deleteUser?id={{teacher.teacher_id}}&type=teacher"> {{teacher.first_name}} </a></td> 
+                <td class="dataCell">{{teacher.last_name}}</td>
+                <td class="dataCell">[TEACHER]</td>
+            </tr>
+        {% endfor %}
+
+        {% for student in all_students %}
+            <tr>
+                <td class="dataCell"><a href="/root/deleteUser?id={{student.student_id}}&type=student"> {{student.first_name}} </a></td> 
+                <td class="dataCell">{{student.last_name}}</td>
+                <td class="dataCell">[STUDENT]</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+
+
+{% endblock %}

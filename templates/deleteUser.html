@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/modifyAccount.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/chooseUserToDelete"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="accountFormContainer" class="center">
+
+    <form action="/root/deleteUser?id={{userType.login}}" method="post" id="createAccountForm">
+        {% csrf_token %}
+
+        <label for="nameInput">Name:</label>
+        <input type="text" id="nameInput" class="input" name="name" value="{{userType.first_name}}" placeholder="" readonly><br>
+
+        <label for="lastNameInput">Last name:</label>
+        <input type="text" id="lastNameInput" class="input" name="lastName" value="{{userType.last_name}}"  placeholder="" readonly><br>
+
+        {% if userTypeName == 'admin' %}
+            <label for="typeInput">User type:</label>
+            <input type="text" id="typeInput" class="input" name="type" value="ADMIN"  placeholder="" readonly><br>
+        {% elif userTypeName == 'teacher' %}
+            <label for="typeInput">User type:</label>
+            <input type="text" id="typeInput" class="input" name="type" value="TEACHER"  placeholder="" readonly><br>
+        {% else %}
+            <label for="typeInput">User type:</label>
+            <input type="text" id="typeInput" class="input" name="type" value="STUDENT"  placeholder="" readonly><br>
+        {% endif %}
+
+        <input type="submit" id="loginButton" value="Delete">
+    </form>
+
+</div>
+
+<datalist id="userTypes">
+    <option value="STUDENT">
+    <option value="TEACHER">
+    <option value="ADMIN">
+</datalist>
+
+{% endblock %}

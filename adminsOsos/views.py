@@ -271,22 +271,117 @@ def modifyUserAdmin(request):
         #userLogin        = request.POST['userId']
 
         # TODO data validation
-
-        # * get instances of foreign key attributes 
-        #user = User.objects.filter(login = userLogin).first()
         
         adminModified               = admin
         adminModified.first_name    = name
         adminModified.last_name     = lastName
         adminModified.phone_number  = phoneNumber  # TODO change in data validation
-        #adminModified.user          = user
         adminModified.save()
 
         messages.info(request,'Admin updated successfully')
 
         return render(request, 'modifyUserAdmin.html', {'admin': adminModified})   # ? maybe change page?
 
-    
+def modifyUserTeacher(request):         # change for teacher
+    if request.method == 'GET':
+
+        teacher_id = request.GET['id']
+        teacher = Teacher.objects.filter(teacher_id = teacher_id).first()
+
+        return render(request, 'modifyUserTeacher.html', {'teacher': teacher})
+
+    else:  # request.method == 'POST
+        # receive data from form
+        teacher_id = request.GET['id']
+        teacher = Teacher.objects.filter(teacher_id = teacher_id).first()
+
+        name             = request.POST['name']
+        lastName         = request.POST['lastName']
+        phoneNumber      = request.POST['number']
+        department_name  = request.POST['department']
+
+
+        # TODO data validation
+
+        # * get instances of foreign key attributes 
+        #user = User.objects.filter(login = userLogin).first()
+        
+        teacherModified                  = teacher
+        teacherModified.first_name       = name
+        teacherModified.last_name        = lastName
+        teacherModified.phone_number     = phoneNumber  # TODO change in data validation
+        teacherModified.department_name  = department_name
+        teacherModified.save()
+
+        messages.info(request,'Teacher updated successfully')
+
+        return render(request, 'modifyUserTeacher.html', {'teacher': teacherModified})   # ? maybe change page?
+
+def modifyUserStudent(request):         # change for student
+    if request.method == 'GET':
+
+        student_id = request.GET['id']
+        student = Student.objects.filter(student_id = student_id).first()
+
+        return render(request, 'modifyUserStudent.html', {'student': student})
+
+    else:  # request.method == 'POST
+        # receive data from form
+        student_id = request.GET['id']
+        student = Student.objects.filter(student_id = student_id).first()
+
+        name             = request.POST['name']
+        lastName         = request.POST['lastName']
+        phoneNumber      = request.POST['number']
+        ingDate          = request.POST['ingDate']
+        department_name  = request.POST['department']
+        field_of_study   = request.POST['field']
+
+        # TODO data validation
+        
+        studentModified               = student
+        studentModified.first_name    = name
+        studentModified.last_name     = lastName
+        studentModified.phone_number  = phoneNumber  # TODO change in data validation
+        studentModified.inauguration_date  = ingDate
+        studentModified.department_name  = department_name
+        studentModified.field_of_study  = field_of_study
+  
+        studentModified.save()
+
+        messages.info(request,'Student updated successfully')
+
+        return render(request, 'modifyUserStudent.html', {'student': studentModified})   # ? maybe change page?
+
+def chooseUserToDelete(request):
+    all_students = Student.objects.all()
+    all_admins = Admin.objects.all()
+    all_teachers = Teacher.objects.all()
+
+    return render(request, 'chooseUserToDelete.html', {'all_students': all_students, 'all_admins': all_admins, 'all_teachers': all_teachers})
+
+def deleteUser(request):    # one page for all user types   (show only name/last name etc.)
+    if request.method == 'GET':
+        user_type_id = request.GET['id']
+        user_type = request.GET['type']
+
+        if user_type == 'admin':
+            user_type_obj = Admin.objects.filter(admin_id=user_type_id).first()
+        elif user_type == 'teacher':
+            user_type_obj = Teacher.objects.filter(teacher_id=user_type_id).first()
+        else:
+            user_type_obj = Student.objects.filter(student_id=user_type_id).first()
+
+        return render(request, 'deleteUser.html', {'userType': user_type_obj, 'userTypeName': user_type})
+    else:           # request.method == 'POST'
+        mail_id = request.GET['id']
+        mail = Mail.objects.filter(mail_id = mail_id).first()
+        mail.delete()
+        messages.info(request,'Mail deleted successfully')
+        return render(request, 'deleteMail.html')
+
+def manageCourse(request):
+    return render(request, 'manageCourse.html')
 
 def createTeacher(request):
 

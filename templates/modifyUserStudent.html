@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/modifyUserStudent.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/chooseUserToModify"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="studentFormContainer" class="center">
+
+    <form action="/root/modifyUserTeacher?id={{student.student_id}}" method="post" id="createAdminForm">
+        {% csrf_token %}
+
+        <label for="nameInput">Name:</label>
+        <input type="text" id="nameInput" class="input" name="name" value="{{student.first_name}}" placeholder=""><br>
+
+        <label for="lastNameInput">Last name:</label>
+        <input type="text" id="lastNameInput" class="input" name="lastName" value="{{student.last_name}}"  placeholder=""><br>
+
+        <label for="numberInput">Phone number:</label>
+        <input type="text" id="numberInput" class="input" name="number" value="{{student.phone_number}}" placeholder=""><br>
+
+        <label for="ingDateInput">Inaguration date:</label>
+        <input type="date" id="ingDateInput" class="input" name="ingDate" value="{{student.inauguration_date}}" placeholder=""><br>
+
+        <label for="departmentInput">Department name:</label>
+        <input type="text" id="departmentInput" class="input" name="department" value="{{student.department_name}}" placeholder=""><br>
+
+        <label for="fieldInput">Field of study:</label>
+        <input type="text" id="fieldInput" class="input" name="field" value="{{student.field_of_study}}" placeholder=""><br>
+
+        <label for="userIdInput">User login:</label>
+        <input type="text" id="userIdInput" class="input" value="{{student.user_id}}" name="userId" readonly><br>
+
+        <label for="mailIdInput">E-mail:</label>
+        <input type="text" id="mailIdInput" class="input" value="{{student.mail_id}}" name="mailId" readonly><br>
+
+        <input type="submit" id="createButton" value="Modify">
+    </form>
+
+</div>
+
+
+{% endblock %}

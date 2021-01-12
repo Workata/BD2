@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/modifyUserTeacher.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/chooseUserToModify"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
+
+<div id="teacherFormContainer" class="center">
+
+    <form action="/root/modifyUserTeacher?id={{teacher.teacher_id}}" method="post" id="createAdminForm">
+        {% csrf_token %}
+
+        <label for="nameInput">Name:</label>
+        <input type="text" id="nameInput" class="input" name="name" value="{{teacher.first_name}}" placeholder=""><br>
+
+        <label for="lastNameInput">Last name:</label>
+        <input type="text" id="lastNameInput" class="input" name="lastName" value="{{teacher.last_name}}"  placeholder=""><br>
+
+        <label for="numberInput">Phone number:</label>
+        <input type="text" id="numberInput" class="input" name="number" value="{{teacher.phone_number}}" placeholder=""><br>
+
+        <label for="departmentInput">Department name:</label>
+        <input type="text" id="departmentInput" class="input" name="department" value="{{teacher.department_name}}" placeholder=""><br>
+
+        <label for="userIdInput">User login:</label>
+        <input type="text" id="userIdInput" class="input" value="{{teacher.user_id}}" name="userId" readonly><br>
+
+        <label for="mailIdInput">E-mail:</label>
+        <input type="text" id="mailIdInput" class="input" value="{{teacher.mail_id}}" name="mailId" readonly><br>
+
+        <input type="submit" id="createButton" value="Modify">
+    </form>
+
+</div>
+
+
+{% endblock %}
