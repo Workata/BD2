@@ -29,7 +29,7 @@ def createAccount(request):
         user_type = request.POST['userType']    # TODO make repeat password field
 
 
-        # validation
+        # login validation
         if len(login) < 5:
            messages.error(request, 'This login must contain at least 5 characters.')
            return render(request, 'createAccount.html', {"invalid": True})
@@ -37,7 +37,7 @@ def createAccount(request):
            messages.error(request, 'This login  may contain up to 45 characters.')
            return render(request, 'createAccount.html', {"invalid": True})
 
-
+        # password validation  
         if len(password) < 5:
            messages.error(request, 'This password must contain at least 5 characters.')
            return render(request, 'createAccount.html', {"invalid": True})
@@ -115,6 +115,7 @@ def createMail(request):
     else:   # request.method == 'POST'
         mail = request.POST['mail']
 
+        # e-mail validation
         regex = "^\d{6}@student.pwr.edu.pl|[a-z]{2,20}.[a-z]{2,20}@pwr.edu.pl$"
 
         if re.match(regex, mail):
@@ -199,17 +200,13 @@ def createStudent(request):   #  , user
         mail             = request.POST['mail']
 
 
+        # phone number validation
         regex = "^[0-9]{9}$"
 
         if re.match(regex, phoneNumber) == False:
            messages.error(request, 'Invalid phone number')
            return render(request, 'createStudent.html', {"invalid": True})
 
-
-        #if len(phoneNumber) !=9:
-        #   messages.error(request, 'Blad')
-        #    return render(request, 'createStudent.html', {"invalid": True})
-        # TODO data validation
 
         if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
             newMail = Mail()
@@ -250,15 +247,12 @@ def createAdmin(request):
         userLogin        = request.POST['userId']
 
 
+        # phone number validation
         regex = "^[0-9]{9}$"
 
         if re.match(regex, phoneNumber) == False:
            messages.error(request, 'Invalid phone number')
            return render(request, 'createAdmin.html', {'user': user}, {"invalid": True})
-
-        # TODO data validation
-
-        # heheszki
 
         # * get instances of foreign key attributes 
         user = User.objects.filter(login = userLogin).first()
@@ -320,13 +314,12 @@ def modifyUserAdmin(request):
         phoneNumber      = request.POST['number']
         #userLogin        = request.POST['userId']
 
-
+        # phone numbwe validation
         regex = "^[0-9]{9}$"
 
         if re.match(regex, phoneNumber) == False:
            messages.error(request, 'Invalid phone number')
            return render(request, 'modifyUserAdmin.html', {"invalid": True})
-        # TODO data validation
 
         # * get instances of foreign key attributes 
         #user = User.objects.filter(login = userLogin).first()
@@ -334,7 +327,7 @@ def modifyUserAdmin(request):
         adminModified               = admin
         adminModified.first_name    = name
         adminModified.last_name     = lastName
-        adminModified.phone_number  = phoneNumber  # TODO change in data validation
+        adminModified.phone_number  = phoneNumber  
         #adminModified.user          = user
         adminModified.save()
 
@@ -359,13 +352,13 @@ def createTeacher(request):
         userLogin        = request.POST['userId']
         mail             = request.POST['mail']
 
-
+        # phone number validation
         regex = "^[0-9]{9}$"
 
         if re.match(regex, phoneNumber) == False:
            messages.error(request, 'Invalid phone number')
            return render(request, 'createTeacher.html', {'user': user}, {"invalid": True})
-        # TODO data validation
+        
 
         if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
             newMail = Mail()
@@ -379,7 +372,7 @@ def createTeacher(request):
         newTeacher                      = Teacher()
         newTeacher.first_name           = name
         newTeacher.last_name            = lastName
-        newTeacher.phone_number         = '+48 ' + phoneNumber  # TODO change in data validation
+        newTeacher.phone_number         = '+48 ' + phoneNumber  
         newTeacher.department_name      = departmentName
         newTeacher.user                 = user
         newTeacher.mail                 = email
