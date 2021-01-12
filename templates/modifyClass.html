@@ -11,7 +11,7 @@
 {% block content %}
 
 <div id="backButton">
-    <a href="/root/chooseTeacherToClass?course_id={{course.course_id}}"> 
+    <a href="/root/chooseClassToModify"> 
         <i class="icon-angle-circled-left"></i>
     </a>
 </div>
@@ -23,10 +23,10 @@
         {% csrf_token %}
 
         <label for="locationInput">Class location:</label>
-        <input type="text" id="locationInput" class="input" name="location" placeholder=""><br>
+        <input type="text" id="locationInput" class="input" name="location" value="{{class.class_location}}" placeholder=""><br>
 
         <label for="termInput">Class term:</label>
-        <input type="text" id="termInput" class="input" name="term" placeholder=""><br>
+        <input type="text" id="termInput" class="input" name="term" value="{{class.class_term}}" placeholder=""><br>
 
         <label for="courseInput">Course:</label>
         <input type="text" id="courseInput" class="input" name="course" value="{{course.course_name}}"  readonly><br>  
@@ -35,7 +35,7 @@
         <input type="text" id="teacherInput" class="input" name="teacher" value="{{teacher.last_name}}"  readonly><br>
 
 
-        <input type="submit" id="createButton" value="Create">
+        <input type="submit" id="createButton" value="Modify">
     </form>
 
 </div>

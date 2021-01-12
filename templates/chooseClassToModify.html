@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/chooseAccountToModify.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/root/manageClass"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+
+<div id="accountList" class= "center">
+    <table id="accountTable">
+        <tr>
+            <th class="headerCell">Class location</th>
+            <th class="headerCell">Class term</th>
+        </tr>
+        {% for class in classes %}
+            <tr>
+                <td class="dataCell"><a href="/root/modifyClass?id={{class.class_id}}"> {{class.class_location}} </a></td> 
+                <td class="dataCell">[{{class.class_term}}]</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+
+
+{% endblock %}

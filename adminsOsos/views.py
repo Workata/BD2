@@ -561,38 +561,85 @@ def manageClass(request):
     return render(request, 'manageClass.html')
 
 def chooseCourseToClass(request):
-    return render(request, 'chooseCourseToClass.html')
+    all_courses = Course.objects.all()
+    return render(request, 'chooseCourseToClass.html', {'courses':all_courses})
 
 def chooseTeacherToClass(request):
-    return render(request, 'chooseTeacherToClass.html')
+    course_id = request.GET['course_id']
+    all_teachers = Teacher.objects.all()
+    return render(request, 'chooseTeacherToClass.html', {'all_teachers':all_teachers, 'course_id': course_id})
 
 def createClass(request):
     if request.method == 'GET':
-        return render(request, 'createClass.html')
+
+        course_id = request.GET['course_id']
+        teacher_id = request.GET['teacher_id']
+
+        course = Course.objects.filter(course_id = course_id).first()
+        teacher = Teacher.objects.filter(teacher_id = teacher_id).first()
+        return render(request, 'createClass.html', {'course':course, 'teacher':teacher})
+
     else:        # request.method == 'POST'
-        course_name  = request.POST['name']
-        course_type  = request.POST['type']
+        course_id = request.GET['course_id']
+        teacher_id = request.GET['teacher_id']
+        course = Course.objects.filter(course_id = course_id).first()
+        teacher = Teacher.objects.filter(teacher_id = teacher_id).first()
 
-        # TODO data validation
-        # TODO check if course exists
+        class_location  = request.POST['location']
+        class_term      = request.POST['term']
 
-        new_course = Course()
-        new_course.course_name = course_name
-        new_course.course_type = course_type
-        new_course.save()
+        new_class = Class()
+        new_class.class_location = class_location
+        new_class.class_term = class_term
+        new_class.course = course
+        new_class.teacher = teacher
+        new_class.save()
 
         messages.info(request,'Class has been created successfully')
 
         return render(request, 'createClass.html', {"created": True})   # ? maybe change page?
 
 def chooseClassToModify(request):
-    pass
+    all_classes = Class.objects.all()
+    return render(request, 'chooseClassToModify.html', {"classes": all_classes})   # ? maybe change page?
 
 def modifyClass(request):
-    pass
+
+    if request.method == 'GET':
+
+        class_id = request.GET['id']
+        classs = Class.objects.filter(class_id=class_id).first()
+        course = Course.objects.filter(course_id = classs.course_id).first()
+        teacher = Teacher.objects.filter(teacher_id = classs.teacher_id).first()
+
+        return render(request, 'modifyClass.html', {'class': classs, 'course': course, 'teacher': teacher})
+
+    else:  # request.method == 'POST
+        # receive data from form
+        course_id = request.GET['id']
+        course = Course.objects.filter(course_id = course_id).first()
+
+        course_name      = request.POST['name']
+        course_type      = request.POST['type']
+
+        # TODO data validation
+        
+        courseModified               = course
+        courseModified.course_name   = course_name
+        courseModified.course_type   = course_type
+  
+        courseModified.save()
+
+        messages.info(request,'Course updated successfully')
+
+        return render(request, 'modifyCourse.html', {'course': courseModified, 'created': True})  
+
+
+
 
 def chooseClassToDelete(request):
-    pass
+    all_classes = Class.objects.all()
+    return render(request, 'chooseClassToDelete.html', {"classes": all_classes})   # ? maybe change page?  
 
 def deleteClass(request):
     pass
