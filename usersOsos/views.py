@@ -3,10 +3,13 @@ from django.contrib.auth.hashers import make_password, check_password
 from usersOsos.models import User
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.sessions.backends.db import SessionStore
 
 # Create your views here.
 
 def home(request):
+    if 'user' in request.session:
+        del request.session['user']
     return render(request, 'login.html')
 
 def login(request):
@@ -19,6 +22,7 @@ def login(request):
         hash_correct = check_password(password, user.password)
         if hash_correct == True:
             if user.user_type == "ADMIN":
+                request.session["user"] = user.login
                 return redirect('/root/home')
             if user.user_type == "STUDENT":
                 return redirect('/student/home')
@@ -28,13 +32,3 @@ def login(request):
 
     messages.info(request,'Invalid credentials')
     return render(request, 'login.html')
-
-    # login = "workata"
-    # password = "1234"
-    # hashed_pass = make_password(password)
-    # user = User()
-    # user.login = login
-    # user.password = hashed_pass
-    # user.user_type = "ADMIN"
-    # user.save()
-    #return render(request, 'login.html')

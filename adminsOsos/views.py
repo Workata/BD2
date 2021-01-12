@@ -13,7 +13,15 @@ import re
 # Create your views here.
 
 def home(request):
+    if 'user' not in request.session:
+        return redirect('/')
+    else:
+        user_login = request.session['user'] 
+        # TODO get user and then get type and check if admin
+
     return render(request, 'adminHome.html')
+
+    #return render(request, 'adminHome.html')
 
 def manageAccount(request):
     return render(request, 'manageAccount.html')
