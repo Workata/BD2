@@ -201,11 +201,11 @@ def createStudent(request):   #  , user
 
 
         # phone number validation
-        #regex = "^[0-9]{9}$"
+        regex = "^[0-9]{9}$"
 
-        #if re.match(regex, phoneNumber) == False:
-        #   messages.error(request, 'Invalid phone number')
-        #   return render(request, 'createStudent.html', {"invalid": True})
+        if re.match(regex, phoneNumber) is None:
+           messages.error(request, 'Invalid phone number')
+           return render(request, 'createStudent.html', {"invalid": True})
 
 
         if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
@@ -248,11 +248,11 @@ def createAdmin(request):
 
 
         # phone number validation
-        #regex = "^[0-9]{9}$"
+        regex = "^[0-9]{9}$"
 
-        #if re.match(regex, phoneNumber) == None:
-        #   messages.error(request, 'Invalid phone number')
-        #   return render(request, 'createAdmin.html', {"invalid": True})
+        if re.match(regex, phoneNumber) is None:
+           messages.error(request, 'Invalid phone number')
+           return render(request, 'createAdmin.html', {"invalid": True})
 
         # * get instances of foreign key attributes 
         user = User.objects.filter(login = userLogin).first()
@@ -315,11 +315,11 @@ def modifyUserAdmin(request):
         #userLogin        = request.POST['userId']
 
         # phone number validation
-        #regex = "^[0-9]{9}$"
+        regex = "^\+48\s[0-9]{9}$"
 
-        #if re.match(regex, phoneNumber) == None:
-        #  messages.error(request, 'Invalid phone number')
-        #   return render(request, 'modifyUserAdmin.html', {"invalid": True})
+        if re.match(regex, phoneNumber) is None:
+            messages.error(request, 'Invalid phone number')
+            return render(request, 'modifyUserAdmin.html', {"invalid": True})
 
         # * get instances of foreign key attributes 
         #user = User.objects.filter(login = userLogin).first()
@@ -353,11 +353,11 @@ def createTeacher(request):
         mail             = request.POST['mail']
 
         # phone number validation
-        #regex = "^[0-9]{9}$"
-        #
-        #if re.match(regex, phoneNumber) == False:
-        #   messages.error(request, 'Invalid phone number')
-        #   return render(request, 'createTeacher.html', {'user': user, "invalid": True})
+        regex = "^[0-9]{9}$"
+        
+        if re.match(regex, phoneNumber) is None:
+           messages.error(request, 'Invalid phone number')
+           return render(request, 'createTeacher.html', {'user': user, "invalid": True})
         
 
         if Mail.objects.filter(mail_id = mail).exists() == False:    # if email doesnt exist then create new email
