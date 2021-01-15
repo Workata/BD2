@@ -3,15 +3,13 @@ from studentsOsos.models import Student
 from teachersOsos.models import Teacher
 
 # Create your models here.
-
-
 # * e.g. E06-47 -> 1, 2, 3, 4... , C1-216, pon tp 13-15
 class Class(models.Model):
     class_id            = models.AutoField(primary_key=True)
     class_location      = models.CharField(max_length = 45, null = True)
     class_term          = models.CharField(max_length = 50, null = False)
 
-    teacher             = models.OneToOneField(Teacher, on_delete = models.SET_DEFAULT, default=0)   # ! OK but insert default teacher with id = 0
+    teacher             = models.ForeignKey('teachersOsos.Teacher', on_delete = models.CASCADE)    # ! OK but insert default teacher with id = 0
     course              = models.ForeignKey('Course', on_delete = models.CASCADE)                    # * OK
     # student             = models.ForeignKey('studentsOsos.Student', on_delete = models.CASCADE)      # * OK
 

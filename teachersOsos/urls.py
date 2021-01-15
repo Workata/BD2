@@ -12,4 +12,7 @@ urlpatterns = [
 
     # * Class panel
     path('manageClass', views.manageClass, name= 'manageClass'),
+
+    path('classManager', views.classManager, name= 'classManager'),
+
 ]

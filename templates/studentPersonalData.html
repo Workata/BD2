@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/studentPersonalData.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/manage-course-icons-set/css/fontello.css' %}" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/student/home"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+
+<div id="container" class="center">
+
+    <div class="rowData"><span class="infoName">Student ID:</span> <span class="infoData">{{student.student_id}}</span> </div>
+    <div class="rowData"><span class="infoName">First name:</span> <span class="infoData">{{student.first_name}}</span></div>
+    <div class="rowData"><span class="infoName">Last name:</span> <span class="infoData">{{student.last_name}}</span></div> 
+    <div class="rowData"><span class="infoName">Phone number:</span> <span class="infoData">{{student.phone_number}}</span></div>
+    <div class="rowData"><span class="infoName">Inauguration date:</span> <span class="infoData">{{student.inauguration_date}}</span></div> 
+    <div class="rowData"><span class="infoName">Department name:</span> <span class="infoData">{{student.department_name}}</span></div> 
+    <div class="rowData"><span class="infoName">Field of study:</span> <span class="infoData">{{student.field_of_study}}</span></div> 
+    <div class="rowData"><span class="infoName">E-mail:</span> <span class="infoData">{{student.mail_id}}</span></div>
+    <div class="rowData"><span class="infoName">Username:</span> <span class="infoData">{{student.user_id}}</span></div>
+
+</div>
+{% endblock %}

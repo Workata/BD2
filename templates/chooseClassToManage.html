@@ -26,7 +26,7 @@
         </tr>
         {% for class in classes %}
             <tr>
-                <td class="dataCell"><a href="/root/deleteClass?id={{class.class_id}}"> {{class.class_location}} </a></td> 
+                <td class="dataCell"><a href="/teacher/classManager?id={{class.class_id}}"> {{class.class_location}} </a></td> 
                 <td class="dataCell">[{{class.class_term}}]</td>
             </tr>
         {% endfor %}

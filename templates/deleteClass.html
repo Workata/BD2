@@ -11,7 +11,7 @@
 {% block content %}
 
 <div id="backButton">
-    <a href="/root/chooseClassToModify"> 
+    <a href="/root/chooseClassToDelete"> 
         <i class="icon-angle-circled-left"></i>
     </a>
 </div>
@@ -19,14 +19,14 @@
 
 <div id="classFormContainer" class="center">
 
-    <form action="/root/modifyClass?id={{class.class_id}}" method="post" id="createClassForm">
+    <form action="/root/deleteClass?id={{class.class_id}}" method="post" id="createClassForm">
         {% csrf_token %}
 
         <label for="locationInput">Class location:</label>
-        <input type="text" id="locationInput" class="input" name="location" value="{{class.class_location}}" placeholder=""><br>
+        <input type="text" id="locationInput" class="input" name="location" value="{{class.class_location}}" placeholder="" readonly><br>
 
         <label for="termInput">Class term:</label>
-        <input type="text" id="termInput" class="input" name="term" value="{{class.class_term}}" placeholder=""><br>
+        <input type="text" id="termInput" class="input" name="term" value="{{class.class_term}}" placeholder="" readonly><br>
 
         <label for="courseInput">Course:</label>
         <input type="text" id="courseInput" class="input" name="course" value="{{course.course_name}}"  readonly><br>  
@@ -35,7 +35,7 @@
         <input type="text" id="teacherInput" class="input" name="teacher" value="{{teacher.last_name}}"  readonly><br>
 
 
-        <input type="submit" id="createButton" value="Modify">
+        <input type="submit" id="createButton" value="Delete">
     </form>
 
 </div>

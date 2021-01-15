@@ -12,21 +12,37 @@ import re
 
 # Create your views here.
 
-def home(request):
-    if 'user' not in request.session:
+def check_user_admin_ok(request):
+    if 'user_type' not in request.session or 'user' not in request.session:
         return redirect('/')
+
+    user_type = request.session['user_type']
+    if user_type == 'STUDENT':
+        return redirect('/student/home')
+    elif user_type == 'TEACHER':
+        return redirect('/teacher/home')
     else:
-        user_login = request.session['user'] 
-        # TODO get user and then get type and check if admin
+        return True
+
+def home(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     return render(request, 'adminHome.html')
 
-    #return render(request, 'adminHome.html')
 
 def manageAccount(request):
-    return render(request, 'manageAccount.html')
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
+    return render(request, 'manageAccount.html')
+ 
 def createAccount(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     if request.method == 'GET':
         return render(request, 'createAccount.html')
@@ -68,10 +84,17 @@ def createAccount(request):
         return render(request, 'createAccount.html', {"created": True})
     
 def chooseAccountToModify(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     all_accounts = User.objects.all().order_by("user_type")
     return render(request, 'chooseAccountToModify.html',{'accounts' : all_accounts})
 
 def modifyAccount(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     if request.method == 'GET':
         user_login = request.GET['id']
@@ -97,10 +120,18 @@ def modifyAccount(request):
         return render(request, 'modifyAccount.html', {'user': user, "created": True })
 
 def chooseAccountToDelete(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     all_accounts = User.objects.all().order_by("user_type")
     return render(request, 'chooseAccountToDelete.html',{'accounts' : all_accounts})
 
 def deleteAccount(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     if request.method == 'GET':
         user_login = request.GET['id']
         user = User.objects.filter(login = user_login).first()
@@ -113,9 +144,16 @@ def deleteAccount(request):
         return render(request, 'deleteAccount.html', {"created": True})
 
 def manageMail(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     return render(request, 'manageMail.html')
 
 def createMail(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     if request.method == 'GET':
         return render(request, 'createMail.html')
@@ -139,10 +177,18 @@ def createMail(request):
             return render(request, 'createMail.html', {"invalid": True})
 
 def chooseMailToDelete(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     all_mails = Mail.objects.all().order_by("mail_id")
     return render(request, 'chooseMailToDelete.html',{'mails' : all_mails})
 
 def deleteMail(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     if request.method == 'GET':
         mail_id = request.GET['id']
         mail = Mail.objects.filter(mail_id = mail_id).first()
@@ -155,12 +201,24 @@ def deleteMail(request):
         return render(request, 'deleteMail.html', {"created": True})
 
 def manageUser(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     return render(request, 'manageUser.html')
 
 def chooseUserTypeToCreate(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     return render(request, 'chooseUserTypeToCreate.html')
 
 def chooseUntakenAdminAccount(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     admins = Admin.objects.all()
     admins_user_id = []
     for admin in admins:
@@ -171,6 +229,10 @@ def chooseUntakenAdminAccount(request):
     return render(request, 'chooseUntakenAdminAccount.html', {'admin_users': admin_users})
 
 def chooseUntakenTeacherAccount(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     teachers = Teacher.objects.all()
     teachers_user_id = []
     for teacher in teachers:
@@ -181,6 +243,10 @@ def chooseUntakenTeacherAccount(request):
     return render(request, 'chooseUntakenTeacherAccount.html', {'teacher_users': teacher_users})
 
 def chooseUntakenStudentAccount(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     students = Student.objects.all()
     students_user_id = []
     for student in students:
@@ -190,6 +256,10 @@ def chooseUntakenStudentAccount(request):
     return render(request, 'chooseUntakenStudentAccount.html', {'student_users': student_users})
 
 def createStudent(request):   #  , user
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
 
     if request.method == 'GET':
         userLogin = request.GET['userLogin']
@@ -242,6 +312,9 @@ def createStudent(request):   #  , user
         return render(request, 'createStudent.html', {'user': user, "created": True})   # ? maybe change page?
 
 def createAdmin(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     if request.method == 'GET':
         userLogin = request.GET['userLogin']
@@ -276,6 +349,9 @@ def createAdmin(request):
         return render(request, 'createAdmin.html', {'user': user, "created": True})   # ? maybe change page?
 
 def chooseUser(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     if request.method == 'GET':
         return render(request, 'chooseUser.html')
@@ -295,6 +371,9 @@ def chooseUser(request):
         return render(request, 'chooseUser.html')
 
 def chooseUserToModify(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     if request.method == 'GET':
         all_students = Student.objects.all()
@@ -304,6 +383,10 @@ def chooseUserToModify(request):
         return render(request, 'chooseUserToModify.html', {'all_students': all_students, 'all_admins': all_admins, 'all_teachers': all_teachers})
 
 def modifyUserAdmin(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     if request.method == 'GET':
 
         admin_id = request.GET['id']
@@ -343,6 +426,10 @@ def modifyUserAdmin(request):
         return render(request, 'modifyUserAdmin.html', {'admin': adminModified, "created": True})   # ? maybe change page?
 
 def modifyUserTeacher(request):         # change for teacher
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     if request.method == 'GET':
 
         teacher_id = request.GET['id']
@@ -378,6 +465,10 @@ def modifyUserTeacher(request):         # change for teacher
         return render(request, 'modifyUserTeacher.html', {'teacher': teacherModified, "created": True})   # ? maybe change page?
 
 def modifyUserStudent(request):         # change for student
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     if request.method == 'GET':
 
         student_id = request.GET['id']
@@ -414,6 +505,10 @@ def modifyUserStudent(request):         # change for student
         return render(request, 'modifyUserStudent.html', {'student': studentModified, "created": True})   # ? maybe change page?
 
 def chooseUserToDelete(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     all_students = Student.objects.all()
     all_admins = Admin.objects.all()
     all_teachers = Teacher.objects.all()
@@ -421,6 +516,10 @@ def chooseUserToDelete(request):
     return render(request, 'chooseUserToDelete.html', {'all_students': all_students, 'all_admins': all_admins, 'all_teachers': all_teachers})
 
 def deleteUser(request):    # one page for all user types   (show only name/last name etc.)
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     if request.method == 'GET':
         user_type_id = request.GET['id']
         user_type = request.GET['type']
@@ -441,9 +540,16 @@ def deleteUser(request):    # one page for all user types   (show only name/last
         return render(request, 'deleteMail.html')
 
 def manageCourse(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     return render(request, 'manageCourse.html')
 
 def createTeacher(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     if request.method == 'GET':
         userLogin = request.GET['userLogin']
@@ -492,6 +598,10 @@ def createTeacher(request):
 
 
 def createCourse(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     if request.method == 'GET':
         return render(request, 'createCourse.html')
     else:        # request.method == 'POST'
@@ -511,10 +621,18 @@ def createCourse(request):
         return render(request, 'createCourse.html', {"created": True})   # ? maybe change page?
 
 def chooseCourseToModify(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     all_courses = Course.objects.all()
     return render(request, 'chooseCourseToModify.html',{'courses':all_courses})
 
 def modifyCourse(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
 
     if request.method == 'GET':
 
@@ -544,10 +662,18 @@ def modifyCourse(request):
         return render(request, 'modifyCourse.html', {'course': courseModified, 'created': True})  
 
 def chooseCourseToDelete(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     all_courses = Course.objects.all()
     return render(request, 'chooseCourseToDelete.html',{'courses':all_courses})
 
 def deleteCourse(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+        
     if request.method == 'GET':
 
         course_id = request.GET['id']
@@ -563,21 +689,37 @@ def deleteCourse(request):
 
         messages.info(request,'Course deleted successfully')
 
-        return render(request, 'modifyCourse.html', {'created': True})  
+        return render(request, 'deleteCourse.html', {'created': True})  
 
 def manageClass(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     return render(request, 'manageClass.html')
 
 def chooseCourseToClass(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+        
     all_courses = Course.objects.all()
     return render(request, 'chooseCourseToClass.html', {'courses':all_courses})
 
 def chooseTeacherToClass(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     course_id = request.GET['course_id']
     all_teachers = Teacher.objects.all()
     return render(request, 'chooseTeacherToClass.html', {'all_teachers':all_teachers, 'course_id': course_id})
 
 def createClass(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     if request.method == 'GET':
 
         course_id = request.GET['course_id']
@@ -605,13 +747,20 @@ def createClass(request):
 
         messages.info(request,'Class has been created successfully')
 
-        return render(request, 'createClass.html', {"created": True})   # ? maybe change page?
+        return render(request, 'createClass.html', {'course':course, 'teacher':teacher, "created": True})   # ? maybe change page?
 
 def chooseClassToModify(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     all_classes = Class.objects.all()
     return render(request, 'chooseClassToModify.html', {"classes": all_classes})   # ? maybe change page?
 
 def modifyClass(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
 
     if request.method == 'GET':
 
@@ -624,30 +773,59 @@ def modifyClass(request):
 
     else:  # request.method == 'POST
         # receive data from form
-        course_id = request.GET['id']
-        course = Course.objects.filter(course_id = course_id).first()
+        class_id = request.GET['id']
+        classs = Class.objects.filter(class_id = class_id).first()
+        course = Course.objects.filter(course_id = classs.course_id).first()
+        teacher = Teacher.objects.filter(teacher_id = classs.teacher_id).first()
 
-        course_name      = request.POST['name']
-        course_type      = request.POST['type']
+        class_location  = request.POST['location']
+        class_term      = request.POST['term']
+
+
 
         # TODO data validation
         
-        courseModified               = course
-        courseModified.course_name   = course_name
-        courseModified.course_type   = course_type
+        classModified                 = classs
+        classModified.class_location  = class_location
+        classModified.class_term      = class_term
   
-        courseModified.save()
+        classModified.save()
 
-        messages.info(request,'Course updated successfully')
+        messages.info(request,'Class updated successfully')
 
-        return render(request, 'modifyCourse.html', {'course': courseModified, 'created': True})  
+        return render(request, 'modifyClass.html', {'class': classModified,'course': course, 'teacher': teacher, 'created': True})  
 
 
 
 
 def chooseClassToDelete(request):
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
     all_classes = Class.objects.all()
     return render(request, 'chooseClassToDelete.html', {"classes": all_classes})   # ? maybe change page?  
 
 def deleteClass(request):
-    pass
+    valid = check_user_admin_ok(request)
+    if valid != True:
+        return valid
+
+    if request.method == 'GET':
+
+        class_id = request.GET['id']
+        classs = Class.objects.filter(class_id=class_id).first()
+        course = Course.objects.filter(course_id = classs.course_id).first()
+        teacher = Teacher.objects.filter(teacher_id = classs.teacher_id).first()
+
+        return render(request, 'deleteClass.html', {'class': classs, 'course': course, 'teacher': teacher})
+
+    else:  # request.method == 'POST
+        # receive data from form
+        class_id = request.GET['id']
+        classs = Class.objects.filter(class_id=class_id).first()
+        classs.delete()
+
+        messages.info(request,'Class deleted successfully')
+
+        return render(request, 'deleteClass.html', {'created': True})  

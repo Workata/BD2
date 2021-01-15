@@ -12,24 +12,33 @@
 {% block content %}
 
 <div id="backButton">
-    <a href="/root/manageClass"> 
+    <a href="/root/manageUser"> 
         <i class="icon-angle-circled-left"></i>
     </a>
 </div>
 
+<div>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</div>
 
 <div id="accountList" class= "center">
     <table id="accountTable">
         <tr>
-            <th class="headerCell">Class location</th>
-            <th class="headerCell">Class term</th>
+            <th class="headerCell">Name</th>
+            <th class="headerCell">Last name</th>
+            <th class="headerCell">Y</th>
         </tr>
-        {% for class in classes %}
+
+        {% for student in students_in_class %}
             <tr>
-                <td class="dataCell"><a href="/root/deleteClass?id={{class.class_id}}"> {{class.class_location}} </a></td> 
-                <td class="dataCell">[{{class.class_term}}]</td>
+                <td class="dataCell"><a href="/root/manageGrades?id={{student.student_id}}"> {{student.first_name}} </a></td> 
+                <td class="dataCell">{{student.last_name}}</td>
+                <td class="dataCell">XD</td>
             </tr>
         {% endfor %}
+
     </table>
 </div>
 
