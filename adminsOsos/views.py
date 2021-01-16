@@ -50,7 +50,7 @@ def createAccount(request):
     else:   # request.method == 'POST'
         login = request.POST['login']
         password = request.POST['password']
-        user_type = request.POST['userType']    # TODO make repeat password field
+        user_type = request.POST['userType']  
 
 
         # login validation
@@ -533,11 +533,19 @@ def deleteUser(request):    # one page for all user types   (show only name/last
 
         return render(request, 'deleteUser.html', {'userType': user_type_obj, 'userTypeName': user_type})
     else:           # request.method == 'POST'
-        mail_id = request.GET['id']
-        mail = Mail.objects.filter(mail_id = mail_id).first()
-        mail.delete()
-        messages.info(request,'Mail deleted successfully')
-        return render(request, 'deleteMail.html')
+        user_type_id = request.GET['id']
+        user_type = request.GET['type']
+
+        if user_type == 'admin':
+            user_type_obj = Admin.objects.filter(admin_id=user_type_id).first()
+        elif user_type == 'teacher':
+            user_type_obj = Teacher.objects.filter(teacher_id=user_type_id).first()
+        else:
+            user_type_obj = Student.objects.filter(student_id=user_type_id).first()
+
+        user_type_obj.delete()
+        messages.info(request,'User type deleted successfully')
+        return render(request, 'deleteUser.html', {'created': True})
 
 def manageCourse(request):
     valid = check_user_admin_ok(request)
