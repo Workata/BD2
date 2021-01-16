@@ -1,0 +1,83 @@
+a{
+    text-decoration: none;
+    color: white;
+}
+
+textarea, input
+{
+ /* background-color: white;*/
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  text-align: center;
+  width: 90%;
+  height: 30px;
+  background-image: url("/static/img/grey_wash_wall.png");
+  color: white;
+}
+
+
+/* !  https://www.w3schools.com/css/css_table.asp */
+
+table, th, td {
+    border: 1px solid black;
+  }
+
+
+.center 
+{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+ }
+
+ .headerCell
+ {
+    font-size: 18px;
+    
+ }
+
+ .dataCell
+ {
+    font-size: 16px;
+ }
+
+ .addStudentButton
+ {
+   font-weight: 700;
+ }
+
+ .addStudentButton:hover
+ {
+   cursor: pointer;
+ }
+
+ #accountList
+ {
+    background-image: url("/static/img/grey_wash_wall.png");
+    width: 450px;
+    height: 600px;
+    border-radius: 10px;
+
+ }
+
+ 
+ #accountTable
+ {
+    width: 300px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+ }
+
+ #backButton
+ {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+}

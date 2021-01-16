@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static 'css/addStudentToClass.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="backButton">
+    <a href="/teacher/classManager?id={{class_id}}"> 
+        <i class="icon-angle-circled-left"></i>
+    </a>
+</div>
+
+
+<div id="accountList" class= "center">
+    <table id="accountTable">
+        <tr>
+            <th class="headerCell">First name</th>
+            <th class="headerCell">Last name</th>
+            <th class="headerCell">Student ID</th>
+            <th class="headerCell">Action</th>
+        </tr>
+
+        <!--<form action="/teacher/addStudentToClass?class_id={{class_id}}" method="post">-->
+            {% for student in students_not_in_class %}
+                <tr>
+                    <td class="dataCell">{{student.first_name}}</td> 
+                    <td class="dataCell">{{student.last_name}}</td>
+
+                    <form action="/teacher/addStudentToClass?class_id={{class_id}}" method="post">
+                    {% csrf_token %}
+                    <td class="dataCell"><input type="text" value="{{student.student_id}}" name="student_id" readonly></td>
+                    <td class="dataCell"><input class="addStudentButton" type="submit" value="Add"> </td>
+                    </form>
+                </tr>
+            {% endfor %}
+        <!--</form>-->
+    </table>
+</div>
+
+
+
+
+{% endblock %}

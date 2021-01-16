@@ -3,7 +3,7 @@
 
 {% block head %}
 
-<link rel="stylesheet" href="{% static 'css/chooseAccountToModify.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'css/manageClassAsTeacher.css' %}" type="text/css" />
 <link rel="stylesheet" href="{% static 'icons/return-icon/css/fontello.css' %}" type="text/css" />
 
 
@@ -12,30 +12,31 @@
 {% block content %}
 
 <div id="backButton">
-    <a href="/root/manageUser"> 
+    <a href="/teacher/manageClass"> 
         <i class="icon-angle-circled-left"></i>
     </a>
 </div>
 
-<div>
-    {% for message in messages %}
-        {{message}}
-    {% endfor %}
+<div id="addButton">
+    <a href="/teacher/addStudentToClass?class_id={{class_id}}"> 
+        Add Student
+    </a>
 </div>
+
 
 <div id="accountList" class= "center">
     <table id="accountTable">
         <tr>
-            <th class="headerCell">Name</th>
+            <th class="headerCell">First name</th>
             <th class="headerCell">Last name</th>
-            <th class="headerCell">Y</th>
+            <th class="headerCell">Student ID</th>
         </tr>
 
         {% for student in students_in_class %}
             <tr>
                 <td class="dataCell"><a href="/root/manageGrades?id={{student.student_id}}"> {{student.first_name}} </a></td> 
                 <td class="dataCell">{{student.last_name}}</td>
-                <td class="dataCell">XD</td>
+                <td class="dataCell">{{student.student_id}}</td>
             </tr>
         {% endfor %}
 

@@ -15,4 +15,6 @@ urlpatterns = [
 
     path('classManager', views.classManager, name= 'classManager'),
 
+    path('addStudentToClass', views.addStudentToClass, name= 'addStudentToClass'),
+
 ]

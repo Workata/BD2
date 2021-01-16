@@ -53,8 +53,40 @@ def classManager(request):  # To debugg
     map_students_in_class = ClassStudents.objects.filter(classs_id=class_id)
     students_in_class = []
     for relation in map_students_in_class:
-        student = Student.objects.filter(student_id=relation.student_id)
+        student = Student.objects.filter(student_id=relation.student_id).first()
+        print(student)
         students_in_class.append(student)
 
 
-    return render(request, 'manageClassAsTeacher.html', {'students_in_class': students_in_class})
+    return render(request, 'manageClassAsTeacher.html', {'students_in_class': students_in_class, 'class_id': class_id})
+
+def addStudentToClass(request):  
+
+    class_id = request.GET['class_id']
+
+    if request.method == 'POST':
+        student_id_to_add = request.POST['student_id']
+        class_students = ClassStudents()
+        class_students.classs_id = class_id
+        class_students.student_id = student_id_to_add
+        class_students.save()
+    
+    map_students_in_class = ClassStudents.objects.filter(classs_id=class_id)
+    students_in_class = []
+    for relation in map_students_in_class:
+        student = Student.objects.filter(student_id=relation.student_id).first()
+        print(student)
+        students_in_class.append(student)
+    
+    students_not_in_class = []
+    all_students = Student.objects.all()
+
+    for student in all_students:
+        if student not in students_in_class:
+            students_not_in_class.append(student)
+
+
+    return render(request, 'addStudentToClass.html', {'students_not_in_class': students_not_in_class, 'class_id': class_id})
+
+def manageGrades(request):  
+    pass
