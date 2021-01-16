@@ -25,13 +25,13 @@
         {% csrf_token %}
 
         <label for="loginInput" >Login:</label>
-        <input type="text" id="loginInput" class="input" name="login" placeholder="Login"><br>
+        <input type="text" id="loginInput" class="input" name="login" placeholder="Login" value="{{user.login}}"><br>
 
         <label for="passwordInput">Password:</label>
-        <input type="password" id="passwordInput" class="input" name="password" placeholder="Password"><br>
+        <input type="password" id="passwordInput" class="input" name="password" placeholder="Password" value="{{user.password}}"><br>
 
         <label for="userTypeInput">User type:</label>
-        <input type="text" list="userTypes" id="userTypeInput" class="input" name="userType"><br>
+        <input type="text" list="userTypes" id="userTypeInput" class="input" name="userType" value="{{user.user_type}}"><br>
 
         <input type="submit" id="loginButton" value="Create">
     </form>

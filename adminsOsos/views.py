@@ -52,30 +52,28 @@ def createAccount(request):
         password = request.POST['password']
         user_type = request.POST['userType']    # TODO make repeat password field
 
-
-        # login validation
-        if len(login) < 5:
-           messages.error(request, 'This login must contain at least 5 characters.')
-           return render(request, 'createAccount.html', {"invalid": True})
-        elif len(login) > 20:
-           messages.error(request, 'This login  may contain up to 45 characters.')
-           return render(request, 'createAccount.html', {"invalid": True})
-
-        # password validation  
-        if len(password) < 5:
-           messages.error(request, 'This password must contain at least 5 characters.')
-           return render(request, 'createAccount.html', {"invalid": True})
-        elif len(password) > 20:
-           messages.error(request, 'This password may contain up to 128 characters.')
-           return render(request, 'createAccount.html', {"invalid": True})
-
-
         user = User()
         hashed_pass = make_password(password)
 
         user.login = login
         user.password = hashed_pass
         user.user_type = user_type
+
+        # login validation
+        if len(login) < 5:
+           messages.error(request, 'This login must contain at least 5 characters.')
+           return render(request, 'createAccount.html', {'user': user, "invalid": True})
+        elif len(login) > 20:
+           messages.error(request, 'This login  may contain up to 45 characters.')
+           return render(request, 'createAccount.html', {'user': user, "invalid": True})
+
+        # password validation  
+        if len(password) < 5:
+           messages.error(request, 'This password must contain at least 5 characters.')
+           return render(request, 'createAccount.html', {'user': user, "invalid": True})
+        elif len(password) > 20:
+           messages.error(request, 'This password may contain up to 128 characters.')
+           return render(request, 'createAccount.html', {'user': user, "invalid": True})
 
         messages.info(request,'User has been created successfully')
         user.save()
@@ -107,6 +105,8 @@ def modifyAccount(request):
         user_password_new  = request.POST['pass']       # TODO make repeat password field
         user = User.objects.filter(login = user_login).first()
 
+    
+
         # user.login = user_login_new
         user.user_type = user_type_new
         if user_password_new != '':                     # if password is blank dont update it -> dont hash it
@@ -114,9 +114,10 @@ def modifyAccount(request):
             hashed_pass = make_password(user_password_new)
             user.password = hashed_pass
 
+        # messages.info(request,'User has been updated successfully')
         # ? https://docs.djangoproject.com/en/dev/ref/models/instances/?from=olddocs#how-django-knows-to-update-vs-insert
         user.save()        # Primary key has changed so I have to probably force an update (in other case it will insert)    
-        # messages.info(request,'User has been updated successfully')
+        
         return render(request, 'modifyAccount.html', {'user': user, "created": True })
 
 def chooseAccountToDelete(request):
@@ -409,7 +410,7 @@ def modifyUserAdmin(request):
 
         if re.match(regex, phoneNumber) is None:
             messages.error(request, 'Invalid phone number')
-            return render(request, 'modifyUserAdmin.html', {"invalid": True})
+            return render(request, 'modifyUserAdmin.html', {'admin': admin,"invalid": True})
 
         # * get instances of foreign key attributes 
         #user = User.objects.filter(login = userLogin).first()
