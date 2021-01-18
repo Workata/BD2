@@ -16,15 +16,10 @@
     </a>
 </div>
 
-<div>
-    {% for message in messages %}
-        {{message}}
-    {% endfor %}
-</div>
 
 <div id="studentFormContainer" class="center">
 
-    <form action="/root/modifyUserTeacher?id={{student.student_id}}" method="post" id="createAdminForm">
+    <form action="/root/modifyUserStudent?id={{student.student_id}}" method="post" id="createAdminForm">
         {% csrf_token %}
 
         <label for="nameInput">Name:</label>
