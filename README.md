@@ -10,7 +10,7 @@ Project called "OSOS - Database system supporting the university" as part of Dat
 	
 ## Development environment and tools used
 Project is created with:
-* Python 3.8 with Django framework
+* Python 3.8 with Django 3.1 framework
 * PostgreSQL
 * HTML5 & CSS	
 	
